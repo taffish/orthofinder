@@ -7,7 +7,12 @@ duplications, orthologues, hierarchical orthogroups, and comparative genomics
 statistics from per-species protein FASTA files.
 
 This repository packages upstream OrthoFinder 3.1.5 as TAFFISH release
-`3.1.5-r1`.
+`3.1.5-r2`.
+
+Release `3.1.5-r2` is a help-only TAFFISH update. It keeps the upstream
+software, Dockerfile, runtime dependencies, smoke tests, and command behavior
+unchanged from `3.1.5-r1`, and refreshes the terminal `taf-orthofinder --help`
+text.
 
 ## Installation
 
@@ -21,7 +26,7 @@ taf install orthofinder
 Install the exact release:
 
 ```sh
-taf install orthofinder 3.1.5-r1
+taf install orthofinder 3.1.5-r2
 ```
 
 For local testing before the app is published to the public index:
@@ -120,9 +125,9 @@ options are available as upstream implements them.
 ```text
 name: orthofinder
 command: taf-orthofinder
-version: 3.1.5-r1
+version: 3.1.5-r2
 kind: tool
-image: ghcr.io/taffish/orthofinder:3.1.5-r1
+image: ghcr.io/taffish/orthofinder:3.1.5-r2
 upstream release: v3.1.5
 upstream runtime version: 3.1.5
 ```
