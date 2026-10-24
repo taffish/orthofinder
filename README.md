@@ -1,246 +1,262 @@
 # taf-orthofinder
 
-TAFFISH wrapper for [OrthoFinder](https://github.com/OrthoFinder/OrthoFinder),
-a phylogenetic orthology inference toolkit for comparative genomics.
-OrthoFinder infers orthogroups, gene trees, a rooted species tree, gene
-duplications, orthologues, hierarchical orthogroups, and comparative genomics
-statistics from per-species protein FASTA files.
+TAFFISH tool packaging for [OrthoFinder](https://github.com/OrthoFinder/OrthoFinder):
+orthogroups, orthologs, gene/species trees and comparative-genomics statistics
+from per-species protein FASTA files.
 
-This repository packages upstream OrthoFinder 3.1.5 as TAFFISH release
-`3.1.5-r2`.
+- Package: `orthofinder 3.2-r1`; installed command: `taf-orthofinder`.
+- Image: `ghcr.io/taffish/orthofinder:3.2-r1`.
+- Native platforms: `linux/amd64,linux/arm64`.
+- Packaging license: Apache-2.0; upstream license files remain unchanged.
+- Upstream: official [v3.2](https://github.com/OrthoFinder/OrthoFinder/releases/tag/v3.2),
+  commit `c2142b862aea0ea8cfad71a32764572e4b086aa6`.
 
-Release `3.1.5-r2` is a help-only TAFFISH update. It keeps the upstream
-software, Dockerfile, runtime dependencies, smoke tests, and command behavior
-unchanged from `3.1.5-r1`, and refreshes the terminal `taf-orthofinder --help`
-text.
+## Install and run
 
-## Installation
-
-Install from the public TAFFISH Hub index:
+After this version is published and indexed:
 
 ```sh
 taf update
-taf install orthofinder
-```
-
-Install the exact release:
-
-```sh
-taf install orthofinder 3.1.5-r2
-```
-
-For local testing before the app is published to the public index:
-
-```sh
-taf install --from .
-```
-
-## Usage
-
-Show TAFFISH app help:
-
-```sh
+taf install orthofinder 3.2-r1
 taf-orthofinder --help
-```
-
-Show the TAFFISH package version:
-
-```sh
-taf-orthofinder --version
-```
-
-Show the upstream OrthoFinder version and help:
-
-```sh
-taf-orthofinder orthofinder --version
-taf-orthofinder -- --version
-taf-orthofinder orthofinder --help
 taf-orthofinder -- --help
-```
-
-Run OrthoFinder on one protein FASTA file per species:
-
-```sh
-taf-orthofinder orthofinder -f proteomes -t 16 -a 8 -o orthofinder-out
-```
-
-The default command is also available when the first argument is an upstream
-option:
-
-```sh
-taf-orthofinder -f proteomes -t 16 -a 8 -o orthofinder-out
-```
-
-Use `primary_transcript` before OrthoFinder when proteomes contain multiple
-isoforms per gene:
-
-```sh
-taf-orthofinder primary_transcript proteomes
-taf-orthofinder orthofinder -f proteomes/primary_transcripts -t 16 -a 8
-```
-
-Choose method backends explicitly:
-
-```sh
-taf-orthofinder orthofinder -f proteomes -S diamond -M msa -A famsa -T fasttree
-taf-orthofinder orthofinder -f proteomes -S blastp -M msa -A mafft -T raxml
-taf-orthofinder orthofinder -f proteomes -S mmseqs -M msa -A muscle -T fasttree
-taf-orthofinder orthofinder -f proteomes -M dendroblast
-```
-
-For large datasets, run a core set first and then assign additional species:
-
-```sh
-taf-orthofinder orthofinder -f core-proteomes -t 32 -a 16 -o core-results
-taf-orthofinder orthofinder --assign additional-proteomes --core core-results/Results_* -t 32 -a 16
-```
-
-The `--assign` path requires `astral-pro`; this image includes a fixed
-ASTER/ASTRAL-Pro build for that dependency.
-
-Because this is a command-mode TAFFISH tool, the first non-option argument is
-the in-container command. For OrthoFinder runs, naming the upstream
-`orthofinder` binary explicitly is the clearest form:
-
-```sh
-taf-orthofinder orthofinder -f proteomes -t 16 -a 8
-taf-orthofinder primary_transcript proteomes
-taf-orthofinder diamond version
-```
-
-The `--` separator is useful for option-leading arguments sent to the default
-`orthofinder` command:
-
-```sh
 taf-orthofinder -- --version
-taf-orthofinder -- -f proteomes -t 16 -a 8
+taf-orthofinder -f proteomes -t 8 -a 2 -o results
 ```
 
-This README lists common usage patterns, not the full upstream manual. The
-TAFFISH wrapper calls upstream `orthofinder` directly, so official OrthoFinder
-options are available as upstream implements them.
+Provide one protein FASTA file per species. Choose a representative transcript
+per gene when appropriate; the wrapper does not make scientific choices for you:
 
-## Package
-
-```text
-name: orthofinder
-command: taf-orthofinder
-version: 3.1.5-r2
-kind: tool
-image: ghcr.io/taffish/orthofinder:3.1.5-r2
-upstream release: v3.1.5
-upstream runtime version: 3.1.5
+```sh
+taf-orthofinder primary_transcript transcripts.fa last_dot
+taf-orthofinder orthofinder-utils
+taf-orthofinder -f proteomes -A muscle -t 8 -a 2 -o muscle-results
+taf-orthofinder -f proteomes -M dendroblast -t 8 -a 2 -o dendro-results
+taf-orthofinder --assign extra-proteomes --core core-results/Results_NAME -t 8 -a 2
 ```
 
-## Container
+Replace `Results_NAME` with the actual directory. A non-option first argument
+selects an in-container executable. Option-leading arguments use `orthofinder`.
+Wrapper `--help/--version` describe the TAFFISH package; use `-- --help` and
+`-- --version` for upstream. Use a project and analysis-output/core path with no
+whitespace. Upstream 3.2 explicitly rejects whitespace in `-o` and in the full
+result location used for continuation/assignment; quoting cannot remove this
+upstream restriction. Prefer whitespace-free paths for utilities too. Ordinary
+shell quotes are not sufficient in the current TAFFISH automatic command mode:
+the outer shell removes them before TAFFISH joins the arguments into a command.
+For a utility output containing ordinary spaces, preserve literal double quotes
+inside single quotes, for example after generating `results/Results_NAME`:
 
-The container image is built from `docker/Dockerfile`. It starts from
-`python:3.12-slim-bookworm`, installs upstream OrthoFinder from the official
-`orthofinder-3.1.5.tar.gz` release archive, verifies official release
-checksums, and installs the external programs needed for OrthoFinder's default
-and common alternative method paths.
-
-Included core runtime:
-
-```text
-orthofinder 3.1.5
-orthofinder-utils and OrthoFinder utility commands
-DIAMOND 2.1.25
-FAMSA 2.5.2
-MUSCLE 5.3, TAFFISH source-built static binary
-FastTree 2.1.11
-MCL
-FastME 2.1.6.3
-ASTER/astral-pro 1.25.3.8
-Python 3.12 with OrthoFinder Python dependencies
-Pinned build-time Python wheels for the OrthoFinder dependency stack
+```sh
+taf-orthofinder species_tree_alignment results/Results_NAME -o '"species alignment"' --species-names
 ```
 
-Included alternative method backends:
+The outer single quotes preserve the inner double quotes for the container
+command; those double quotes are not part of the output directory name.
+Do not replace this with `-o "species alignment"`, which loses the boundary.
+This narrow workaround is for simple utility paths containing spaces, not
+arbitrary shell characters (such as quotes, dollar signs or backticks), and it
+cannot bypass upstream's analysis-output/core whitespace restriction. Rename
+such paths or copy inputs into a whitespace-free project directory instead.
 
-```text
-BLAST+ commands: makeblastdb, blastp, blastn
-MMseqs2 command: mmseqs
-MAFFT
-RAxML classic command: raxmlHPC
-gzip, tar, unzip, bash and standard runtime utilities
+## Version 3.2 output and restart changes
+
+The default now writes compressed per-species `Orthologs/SPECIES.tsv.gz`.
+The old `Orthologues/` spelling has changed to `Orthologs/`; downstream code
+also needs the new `Single_Copy_Ortholog_Sequences/`,
+`Orthogroups/Orthogroups_SingleCopyOrthologs.txt` and
+`Comparative_Genomics_Statistics/OrthologsStats_*.tsv` spellings.
+Use `-pof` to request pairwise ortholog files during the run, or split selected
+results afterwards:
+
+```sh
+taf-orthofinder split_ortholog_files results/Results_NAME -o pairwise -t 1
+taf-orthofinder species_tree_alignment results/Results_NAME -o alignment --species-names
+taf-orthofinder mcl_orthogroup_sequences results/Results_NAME -o mcl-sequences
 ```
 
-Not included:
+The latter two are new upstream utilities for the concatenated species-tree
+alignment and MCL orthogroup FASTAs. They require the complete working files,
+not just copied final TSVs. See each utility's `--help`.
 
-```text
-IQ-TREE 3 / iqtree3
-RAxML-NG
-VeryFastTree
-large custom databases or user proteome datasets
-downstream visualization, report post-processing, or workflow orchestration tools
+A complete result tree includes `Orthogroups/`, `Orthologs/`,
+`Species_Tree/`, `Gene_Trees/`, `Resolved_Gene_Trees/`,
+`Phylogenetic_Hierarchical_Orthogroups/`,
+`Gene_Duplication_Events/`, `Comparative_Genomics_Statistics/`,
+`WorkingDirectory/` and `Log.txt`; some outputs depend on the chosen method
+and stop point. Technical smoke results are not a scientific accuracy claim.
+
+```sh
+taf-orthofinder -f proteomes -og -t 8 -a 2 -o staged-results
+taf-orthofinder -fg staged-results/Results_NAME -t 8 -a 2
 ```
 
-OrthoFinder can use custom method definitions through configuration files, but
-this TAFFISH image only guarantees the included executables above. Keep large
-downstream processing or visualization steps as separate TAFFISH tools or flows.
-MUSCLE is bundled as the same TAFFISH source-built static MUSCLE 5.3 strategy
-used by the standalone `muscle` app, because the Debian and official Linux
-arm64 binaries fail a runtime sanity check. This keeps OrthoFinder's
-`-A muscle` path usable on both declared image platforms.
+Fresh `-o` must not exist and is only accepted with `-f`, not `--assign`.
+Assignment creates a new `Results_*` directory beside the core results directory.
+Restart modes can modify the original run in place
+and upgrade old directory names: make a backup first. Keep `WorkingDirectory`
+and its state/metadata. `split_ortholog_files` skips existing pairwise files
+unless `--force` is explicitly supplied; alignment/FASTA utilities can replace
+their own outputs, so prefer separate destinations.
 
-The image keeps the upstream README, license, official `ExampleData`, release
-`user_config.json`, and small upstream test proteomes under:
+## Runtime and dependency choices
 
-```text
-/usr/local/share/doc/orthofinder
+The existing Python 3.12 Bookworm source-install strategy is retained.
+The official sdist is verified against SHA256
+`554cc15b4cca86e496c680cccf8697f3b0953ff25403e2ff0d585bd015071adb`.
+No OrthoFinder algorithm or release/preview flags are patched.
+
+Included: OrthoFinder and all eleven official console entry points; DIAMOND
+2.1.25, FAMSA 2.5.2, MUSCLE 5.3, FastTree 2.1.11, FastME 2.1.6.3,
+ASTER/ASTRAL-Pro 1.25.3.8, MCL, BLAST+, MMseqs2, MAFFT and classic RAxML.
+The existing small compiler-portability fixes for DIAMOND/MUSCLE remain;
+MUSCLE's `-march=native` is removed and its AArch64 macro recognized.
+These are dependency build fixes, not OrthoFinder algorithm changes.
+
+Python runtime constraints retain the prior versions and add pandas 3.1.0
+required by 3.2. Versions constrain resolution but do not guarantee permanent
+archive retention or byte-identical rebuilds. The base tag, Debian repositories,
+Python transitives and isolated build dependencies may drift; Dockerfile
+comments identify those boundaries. Fixed source hashes fail closed instead of
+silently accepting different archives. Keep a built image digest for exact reuse.
+
+IQ-TREE 3, RAxML-NG and VeryFastTree are not included. Custom program configurations
+can only use installed executables; `--config FILE` does not install programs.
+Full datasets, benchmarks and all alternative scientific methods are not
+validated by the tiny packaging checks.
+
+## Resources and shared use
+
+The released CLI does not download reference databases or models.
+Proteomes, optional species tree/config files,
+and previous `--core` results are project-specific inputs and derived state,
+not an independently versioned upstream resource collection. Therefore a
+database/model installation helper and automatic resource selection are N/A.
+There is no silent reference download fallback.
+
+The official ExampleData, small upstream test proteomes, README, LICENSE and
+release configuration are bundled read-only at
+`/usr/local/share/doc/orthofinder`. Tests copy them to writable scratch before
+running; do not use that image directory as an output location.
+
+An administrator may share project proteomes read-only using normal filesystem
+permissions (traversable directories, readable files). Each user supplies a
+separate writable output/project directory. Do not concurrently mutate a shared
+core run or restart someone else's results. Input-data licensing belongs to the
+chosen dataset; the software license does not grant rights to arbitrary inputs.
+
+## Backends and GUI boundary
+
+The wrapper automatically binds the current working directory for all three
+backends. Docker uses your UID/GID; Podman additionally uses keep-id; Apptainer
+keeps the calling user. Choose a directory writable by that account, without
+requiring root or fixing output ownership afterwards. Run from a project
+directory containing the inputs and outputs:
+
+```sh
+TAFFISH_CONTAINER_BACKEND=docker taf-orthofinder -f proteomes -o results
+TAFFISH_CONTAINER_BACKEND=podman taf-orthofinder -f proteomes -o results
+TAFFISH_CONTAINER_BACKEND=apptainer taf-orthofinder -f proteomes -o results
 ```
 
-The image is built and validated for:
+No GPU, GUI service, listening port or privileged mode is required. Apptainer
+requires Linux; macOS users can use Docker or Podman. Site scheduler resources
+and CPU/RAM/disk sizing remain the user's responsibility.
 
-```text
-linux/amd64
-linux/arm64
+GUI discovery checked the release README, extras, entry points and source.
+The archive contains HTML viewer code, but `run/cli_options.py` explicitly
+sets `PREVIEW_OPTIONS=False`: `--view/--tree-view/--stats-view/--groups-view`
+are unreleased development features, omitted from stable CLI help.
+`tools/list_tools.py` likewise marks `view_results` as unreleased; it is not a
+console entry point. We retain the official code but do not enable or advertise
+it as a supported 3.2 GUI. PyQt6 belongs to the upstream docs extra, not the
+released CLI. Stable outputs are tables, FASTAs and trees; browser/service
+lifecycle checks are N/A for this public surface, not a claimed GUI PASS.
+
+## Testing and local development
+
+```sh
+taf check
+taf build
+./target/taf-orthofinder-v3.2-r1 -- --version
 ```
 
-## Smoke Checks
+Each `orthofinder-smoke MODE` is independent and creates its own writable
+temporary directory. Modes cover identity, all helpers, transcript selection,
+DIAMOND, aligners, default/dendroblast/MUSCLE pipelines, stop/restart,
+assignment and failures. Redirected failures replay bounded stage logs.
 
-The TAFFISH metadata declares Docker smoke checks that verify:
+The initial 2026-10-24 candidate was built natively on both declared architectures.
+On the private xjp Linux amd64 host, Docker, Podman and actual read-only
+Apptainer SIF passed; native ARM64 Docker and Podman also passed. The matrix
+contained 396 independent offline smoke invocations and 105 real-wrapper calls.
+Docker/Podman each passed normal and non-root read-only-root checks. The
+wrapper tests covered metadata, command-mode helpers, actual host-bound
+outputs and ownership, new output utilities, restart, assignment, negative
+cases and idempotent splitting. Utility space-path checks preserve literal
+double quotes as shown above; they do not prove ordinary shell quoting works.
+Analysis paths with whitespace are explicitly rejected by upstream.
 
-```text
-main OrthoFinder command and utility commands exist
-orthofinder --version reports upstream version 3.1.5
-upstream help advertises the main -f workflow
-Python package import exposes version 3.1.5
-DIAMOND, FAMSA, MUSCLE, FastME, ASTRAL-Pro, FastTree, MCL, BLAST+, MMseqs2 exist and run
-primary_transcript produces a representative-transcript FASTA
-DIAMOND can build and search a tiny protein database
-FAMSA, MUSCLE, FastTree, and FastME can process tiny local inputs
-OrthoFinder can run a minimal offline protein-set workflow and produce orthogroups and a rooted species tree
-OrthoFinder can run the legacy dendroblast workflow on the same tiny data
-OrthoFinder can run an MSA workflow with the bundled MUSCLE backend
-```
+Five runtime permission probes checked parent-directory traversal, dependency
+notices and denied-access/read-only negative controls. Five injected failures
+confirmed visible stage, original exit code and bounded log output. Each of
+the five runtime axes matched 101 upstream Python files against the official
+sdist; only `_version.py` is regenerated by upstream's setuptools-scm build,
+and its reported version was separately checked as 3.2.
 
-Each smoke test is self-contained so the Hub index can run them in fresh
-containers independently.
+The documentation-closeout rerun passed 396 fresh independent offline smoke
+invocations. The final current-wrapper evidence contains 22 passing checks on
+each of five native axes (110 calls): xjp amd64 Docker, Podman and Apptainer,
+plus local ARM64 Docker and Podman. The engine-recovery follow-up reran both
+ARM64 wrappers completely and repeated all 88 ARM64 Docker offline normal /
+non-root read-only smoke invocations. Its permission, source-integrity and
+failure-log probes also passed. The unchanged xjp three-backend receipts and
+ARM64 Podman exact-smoke receipts were rechecked, not presented as fresh reruns.
 
-## Upstream
+Current image sizes are 808,712,503 bytes (amd64) and 798,678,188 bytes (ARM64).
+The largest directories are the Python runtime/dependencies (460/481 MiB),
+system libraries (168/184 MiB), and shared runtime data (55 MiB). Small official
+fixtures and notices occupy about 2.2 MiB. Mounting wheels from the build stage
+instead of copying them into a retained layer removed 87,172,600 bytes from
+the amd64 baseline. The fresh amd64 closeout rebuild is four bytes larger than
+the initial validated image and has a separately recorded identity.
 
-- Upstream repository: <https://github.com/OrthoFinder/OrthoFinder>
-- Upstream website: <https://orthofinder.github.io/OrthoFinder/>
-- Upstream release: <https://github.com/OrthoFinder/OrthoFinder/releases/tag/v3.1.5>
-- Upstream license: GPL-3.0
+ARM64 Apptainer is not separately validated; this is not a six-combination
+claim. Earlier Docker Desktop runs failed in host file sharing with
+`service fs failed: injecting event blocked for 60s`, including with Podman
+temporarily stopped. After an authorized switch from VirtioFS to gRPC FUSE,
+the unchanged wrapper and its default mounts passed the complete regression.
+Podman was started in an independent process session and passed its complete
+wrapper regression and subsequent health checks. Final engine/residue checks
+passed; no memory, quota or security settings were changed. These observations
+support a local recovery/workaround, not a guarantee against future Desktop
+failures. Earlier failures remain in maintainer evidence. Local validation is
+not a claim that future floating CI, public GHCR/Index acceptance or
+production-scale scientific accuracy is proven.
 
-If you use OrthoFinder, cite the relevant upstream OrthoFinder papers:
+## Troubleshooting
 
-```text
-Emms and Kelly. OrthoFinder: solving fundamental biases in whole genome comparisons dramatically improves orthogroup inference accuracy. Genome Biology. 2015.
-doi:10.1186/s13059-015-0721-2.
+- Missing input: run from the directory containing the input folder; missing
+  proteomes are an error, not a request to download data.
+- Existing output: select a new directory, or deliberately use the appropriate
+  restart option with a backed-up complete result tree.
+- Old downstream script: update `Orthologues` paths and compressed-table parsing.
+- Unknown `--view`: that preview feature is disabled by upstream in stable 3.2.
+- Memory/process limits: reduce `-t/-a`; keep enough writable scratch and output
+  space. The default analysis-thread count changed in upstream 3.2.
 
-Emms and Kelly. STRIDE: Species Tree Root Inference from Gene Duplication Events. Molecular Biology and Evolution. 2017.
-doi:10.1093/molbev/msx259.
+## License and citation
 
-Emms and Kelly. OrthoFinder: phylogenetic orthology inference for comparative genomics. Genome Biology. 2019.
-doi:10.1186/s13059-019-1832-y.
+The sdist's top-level LICENSE is GPLv3 and several source headers are GPLv3,
+while its pyproject metadata says `LGPL-3.0-only`. These upstream declarations
+are inconsistent; this package preserves both rather than relicensing code.
+Dependencies retain their own licenses. TAFFISH packaging files are Apache-2.0.
+Official examples retain their upstream notices.
 
-Emms and Kelly. SHOOT: phylogenetic gene search and ortholog inference. Genome Biology. 2022.
-doi:10.1186/s13059-022-02652-8.
-
-Emms et al. OrthoFinder3. bioRxiv. 2025.
-doi:10.1101/2025.07.15.664860.
-```
+Cite the upstream OrthoFinder papers as appropriate:
+2015 [Genome Biology](https://doi.org/10.1186/s13059-015-0721-2),
+2017 [STRIDE](https://doi.org/10.1093/molbev/msx259),
+2019 [Genome Biology](https://doi.org/10.1186/s13059-019-1832-y),
+2022 [SHOOT](https://doi.org/10.1186/s13059-022-02652-8), and
+2026 [OrthoFinder in Nature Methods](https://doi.org/10.1038/s41592-026-03126-6),
+plus [STAG](https://doi.org/10.1101/267914) when applicable.

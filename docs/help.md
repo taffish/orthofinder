@@ -1,67 +1,89 @@
-taf-orthofinder 3.1.5-r2
+taf-orthofinder 3.2-r1
 
-TAFFISH wrapper for OrthoFinder 3.1.5, a phylogenetic orthology toolkit for
-comparative genomics from per-species protein FASTA files.
+Purpose:
+  Infer orthogroups, orthologs and gene/species trees from protein FASTA files.
+  This stable release exposes the upstream CLI, not its unreleased HTML preview.
 
 Usage:
-  taf-orthofinder --help
-  taf-orthofinder --version
-  taf-orthofinder --compile [ARGS...]
-  taf-orthofinder -- [ORTHOFINDER-ARGS...]
-  taf-orthofinder orthofinder [ORTHOFINDER-ARGS...]
-  taf-orthofinder COMMAND [ARGS...]
+  taf-orthofinder -f proteomes -t 8 -a 2 -o results
+  taf-orthofinder orthofinder -f proteomes -t 8 -a 2 -o results
+  taf-orthofinder -- --help
+  taf-orthofinder -- --version
 
-Wrapper help vs upstream help:
-  taf-orthofinder --help                  Show this TAFFISH help
-  taf-orthofinder --version               Show package version
-  taf-orthofinder -- --version            Show upstream OrthoFinder version
-  taf-orthofinder orthofinder --version   Show upstream OrthoFinder version
-  taf-orthofinder orthofinder --help      Show upstream OrthoFinder help
-  taf-orthofinder -- --help               Show upstream OrthoFinder help
+Inputs:
+  Put one protein FASTA file per species in proteomes/.
+  Choose representative transcripts before running if genes have many isoforms:
+    taf-orthofinder primary_transcript transcripts.fa last_dot
+  Supply your own proteomes, species tree/configuration and any previous core
+  results. No reference database or model download is required.
 
-Examples:
-  taf-orthofinder orthofinder -f proteomes -t 16 -a 8 -o orthofinder-out
-  taf-orthofinder -f proteomes -t 16 -a 8 -o orthofinder-out
-  taf-orthofinder primary_transcript proteomes
-  taf-orthofinder orthofinder -f proteomes/primary_transcripts -t 16 -a 8
-  taf-orthofinder orthofinder -f proteomes -S diamond -M msa -A famsa -T fasttree
-  taf-orthofinder orthofinder -f proteomes -S blastp -M msa -A mafft -T raxml
-  taf-orthofinder orthofinder -f proteomes -S mmseqs -M msa -A muscle -T fasttree
-  taf-orthofinder orthofinder -f proteomes -M dendroblast
-  taf-orthofinder orthofinder --assign extra-proteomes --core core-results/Results_* -t 32 -a 16
+Common tasks:
+  Default DIAMOND / FAMSA / FastTree pipeline:
+    taf-orthofinder -f proteomes -t 8 -a 2 -o results
+  MUSCLE alignment or legacy dendroblast:
+    taf-orthofinder -f proteomes -A muscle -t 8 -a 2 -o muscle-results
+    taf-orthofinder -f proteomes -M dendroblast -t 8 -a 2 -o dendro-results
+  Add species to an existing core analysis:
+    taf-orthofinder --assign extra-proteomes --core core-results/Results_NAME -t 8 -a 2
+  Stop after orthogroups, then resume the same run:
+    taf-orthofinder -f proteomes -og -t 8 -a 2 -o staged-results
+    taf-orthofinder -fg staged-results/Results_NAME -t 8 -a 2
+  Replace Results_NAME with the actual results directory, not an invented name.
 
-Command mode:
-  OrthoFinder has its own executable and helper commands. The clearest form is
-  to name the executable explicitly:
+Result utilities:
+  taf-orthofinder split_ortholog_files results/Results_NAME -o pairwise -t 1
+  taf-orthofinder species_tree_alignment results/Results_NAME -o alignment --species-names
+  taf-orthofinder mcl_orthogroup_sequences results/Results_NAME -o mcl-sequences
+  taf-orthofinder orthofinder-utils
+  Use TOOL --help for each utility's options.
 
-    taf-orthofinder orthofinder -f proteomes -t 16 -a 8
-    taf-orthofinder primary_transcript proteomes
-    taf-orthofinder diamond version
+Common options:
+  -t N / -a N       Search / analysis threads; set these for your machine.
+  -s TREE          User-supplied rooted species tree.
+  -S METHOD        Search program; default diamond.
+  -M msa|dendroblast  Gene-tree method.
+  -A METHOD / -T METHOD  Alignment / gene-tree program.
+  -pof             Also write pairwise ortholog files (many files).
+  -o DIR           New output directory, only with -f; it must not exist.
+  --config FILE    User-supplied upstream program configuration.
 
-  If the first argument starts with "-", TAFFISH passes it to the default
-  orthofinder command, so option-leading shorthand also works.
+Key outputs (inside Results_NAME):
+  Orthogroups/Orthogroups.tsv
+  Orthologs/SPECIES.tsv.gz
+  Species_Tree/SpeciesTree_rooted.txt
+  Phylogenetic_Hierarchical_Orthogroups/ and Comparative_Genomics_Statistics/
+  Version 3.2 uses Orthologs, not the old Orthologues directory spelling.
+  Keep the complete result tree and WorkingDirectory when planning a restart.
+  Back up old results first: an upstream restart can update them in place.
+  --assign creates new Results_* beside the core results; it does not accept -o.
 
-Included:
-  orthofinder, orthofinder-utils, primary_transcript, make_ultrametric,
-  convert_orthofinder_tree_ids, create_hog_fastas, ncbi_primary_transcript,
-  orthogroup_gene_count, diamond 2.1.25, famsa 2.5.2, muscle 5.3,
-  FastTree 2.1.11, MCL, FastME 2.1.6.3, astral-pro 1.25.3.8, BLAST+,
-  MMseqs2, MAFFT, classic RAxML, official ExampleData, and user_config.json.
+Backend use:
+  TAFFISH_CONTAINER_BACKEND=docker taf-orthofinder -f proteomes -o results
+  TAFFISH_CONTAINER_BACKEND=podman taf-orthofinder -f proteomes -o results
+  TAFFISH_CONTAINER_BACKEND=apptainer taf-orthofinder -f proteomes -o results
+  Run from the project directory so inputs and outputs are in the current bind.
+  Output files use your UID/GID; choose a directory writable by your account.
+  Apptainer needs Linux; on macOS use Docker or Podman.
+  Use project, results and core paths without whitespace: upstream rejects
+  whitespace in analysis output paths, even when shell quoting is correct.
+  Prefer no spaces in utility paths too. Ordinary shell quotes are insufficient.
+  For a simple utility output with spaces, keep the inner double quotes literally:
+    taf-orthofinder species_tree_alignment results/Results_NAME -o '"species alignment"' --species-names
+  This does not allow spaces in analysis/core paths or arbitrary shell characters.
 
-Not included:
-  IQ-TREE 3, RAxML-NG, VeryFastTree, large user datasets, custom databases,
-  visualization tools, or downstream report post-processing tools.
+Immediate notes:
+  A new -o directory is required. Utility outputs may overwrite files; choose
+  a separate destination. split_ortholog_files skips existing files unless -f.
+  Development-only --view/--tree-view/--stats-view/--groups-view are disabled
+  by upstream in this stable release; use its CLI output tables and trees.
+  Large runs need sufficient RAM, disk space and explicitly chosen threads.
 
-Notes:
-  MUSCLE is bundled as a TAFFISH source-built static MUSCLE 5.3 binary so the
-  OrthoFinder -A muscle backend works on the published platforms.
-  The --assign workflow requires astral-pro, which is included.
-  Typical outputs are written under a Results_* directory. If -o is used,
-  OrthoFinder requires the chosen output directory not to already exist.
-  Native image platforms are linux/amd64 and linux/arm64.
+More help:
+  taf-orthofinder -- --help
+  https://github.com/taffish/orthofinder
+  https://orthofinder.github.io/OrthoFinder/
 
-Upstream:
-  repository: https://github.com/OrthoFinder/OrthoFinder
-  website:    https://orthofinder.github.io/OrthoFinder/
-  release:    v3.1.5
-  license:    GPL-3.0
+Wrapper options:
+  taf-orthofinder --help       Show this installed-user help.
+  taf-orthofinder --version    Show TAFFISH package identity.
+  taf-orthofinder --compile    Print generated wrapper shell.

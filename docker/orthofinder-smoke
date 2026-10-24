@@ -1,0 +1,158 @@
+#!/usr/local/bin/python
+"""Independent offline packaging probes; no upstream algorithm changes."""
+import gzip
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+MODES = ('identity', 'helpers', 'primary', 'diamond', 'aligners', 'default',
+         'dendroblast', 'muscle', 'restart', 'assign', 'negative')
+DATA = Path('/usr/local/share/doc/orthofinder/tests/data/proteome')
+
+
+def call(stage, args, *, expected=0, marker=None):
+    result = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                            text=True, timeout=240)
+    Path(stage + '.log').write_text(result.stdout)
+    output = re.sub(r'\x1b\[[0-9;]*m', '', result.stdout)
+    ok = result.returncode == expected if expected is not None else result.returncode != 0
+    if not ok or (marker is not None and marker not in output):
+        print(f'smoke-stage={stage} exit={result.returncode}', file=sys.stderr)
+        print('\n'.join(output.splitlines()[-200:]), file=sys.stderr)
+        raise RuntimeError(f'{stage}: expected exit={expected}, marker={marker!r}')
+    return output
+
+
+def nonempty(path):
+    assert path.is_file() and path.stat().st_size > 0, f'missing/empty output: {path}'
+
+
+def prepare():
+    shutil.copytree(DATA / 'Core', 'proteomes')
+
+
+def result_root():
+    roots = list(Path('results').glob('Results_*'))
+    assert len(roots) == 1, roots
+    return roots[0]
+
+
+def complete(root):
+    for path in ('Orthogroups/Orthogroups.tsv', 'Species_Tree/SpeciesTree_rooted.txt',
+                 'Comparative_Genomics_Statistics/Statistics_Overall.tsv'):
+        nonempty(root / path)
+    assert 'BIG_A_1' in (root / 'Orthogroups/Orthogroups.tsv').read_text()
+    files = list((root / 'Orthologs').glob('*.tsv.gz'))
+    assert files, '3.2 compressed ortholog output missing'
+    for path in files:
+        with gzip.open(path, 'rt') as inp:
+            assert 'Orthogroup' in inp.readline(), path
+
+
+def probe(mode):
+    if mode == 'identity':
+        call('version', ['orthofinder', '--version'], marker='3.2')
+        import orthofinder
+        from orthofinder.run.cli_options import PREVIEW_OPTIONS
+        assert orthofinder.__version__ == '3.2'
+        assert PREVIEW_OPTIONS is False, 'Do not enable unreleased preview features'
+        call('help', ['orthofinder', '--help'], marker='SIMPLE USAGE:')
+        for stage, args, marker in [
+            ('diamond', ['diamond', 'version'], 'diamond version 2.1.25'),
+            ('famsa', ['famsa', '-help'], 'version 2.5.2-'),
+            ('muscle', ['muscle', '-version'], 'muscle 5.3.linux64 [v5.3-taffish-r1]'),
+            ('fastme', ['fastme', '--version'], 'FastME 2.1.6.3'),
+            ('astral', ['astral-pro', '-h'], 'Version: v1.25.3.8'),
+            ('mcl', ['mcl', '-h'], 'mcl'),
+            ('blast', ['makeblastdb', '-help'], 'makeblastdb'),
+            ('mmseqs', ['mmseqs', 'version'], None),
+        ]:
+            call(stage, args, marker=marker)
+    elif mode == 'helpers':
+        call('utils', ['orthofinder-utils'], marker='OrthoFinder utility scripts')
+        for tool in ['primary_transcript', 'make_ultrametric', 'convert_orthofinder_tree_ids',
+                     'create_hog_fastas', 'ncbi_primary_transcript', 'orthogroup_gene_count',
+                     'split_ortholog_files', 'species_tree_alignment', 'mcl_orthogroup_sequences']:
+            call(tool, [tool, '--help'], marker='usage:')
+    elif mode == 'primary':
+        Path('transcripts.fa').write_text('>gene1.t1\nMAAA\n>gene1.t2\nMAAAAA\n>gene2.t1\nMCC\n')
+        call('primary', ['primary_transcript', 'transcripts.fa', 'last_dot'])
+        output = Path('primary_transcripts/transcripts.fa').read_text()
+        assert '>gene1.t2' in output and '>gene2.t1' in output and '>gene1.t1' not in output
+    elif mode == 'diamond':
+        Path('proteins.fa').write_text('>a\nMKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQANN\n>b\nGILGFVFTLTVPSERKELKQLLQK\n')
+        call('makedb', ['diamond', 'makedb', '--in', 'proteins.fa', '-d', 'proteins'])
+        call('search', ['diamond', 'blastp', '-d', 'proteins', '-q', 'proteins.fa', '-o', 'hits.tsv',
+                        '--quiet', '--max-target-seqs', '1', '-p', '1'])
+        nonempty(Path('hits.tsv'))
+    elif mode == 'aligners':
+        Path('aln.fa').write_text('>a\nMKTAYIAK\n>b\nMKTAYIG\n')
+        call('famsa', ['famsa', 'aln.fa', 'famsa.fa', '-t', '1'])
+        call('muscle', ['muscle', '-align', 'aln.fa', '-output', 'muscle.fa'])
+        nonempty(Path('famsa.fa')); nonempty(Path('muscle.fa'))
+        assert ';' in call('fasttree', ['FastTree', 'famsa.fa'])
+        Path('dist.phy').write_text('4\nA 0 0.1 0.2 0.3\nB 0.1 0 0.2 0.3\nC 0.2 0.2 0 0.1\nD 0.3 0.3 0.1 0\n')
+        call('fastme', ['fastme', '-i', 'dist.phy', '-o', 'fastme.nwk'])
+        nonempty(Path('fastme.nwk'))
+    elif mode in ('default', 'dendroblast', 'muscle', 'restart', 'assign'):
+        prepare()
+        args = ['orthofinder', '-f', 'proteomes', '-t', '1', '-a', '1', '-o', 'results']
+        if mode == 'dendroblast': args += ['-M', 'dendroblast']
+        if mode == 'muscle': args += ['-M', 'msa', '-A', 'muscle', '-T', 'fasttree']
+        if mode == 'restart': args += ['-og']
+        call('pipeline', args)
+        root = result_root()
+        if mode == 'restart':
+            call('resume', ['orthofinder', '-fg', str(root), '-t', '1', '-a', '1'])
+        complete(root)
+        if mode == 'default':
+            call('split', ['split_ortholog_files', str(root), '-o', 'pairwise', '-t', '1'])
+            assert any(Path('pairwise').rglob('*.tsv'))
+            call('alignment', ['species_tree_alignment', str(root), '-o', 'tree-alignment', '--species-names'])
+            nonempty(Path('tree-alignment/SpeciesTreeAlignment.fa'))
+            call('mcl-fasta', ['mcl_orthogroup_sequences', str(root), '-o', 'mcl-sequences'])
+            assert any(Path('mcl-sequences').glob('*.fa'))
+        if mode == 'assign':
+            shutil.copytree(DATA / 'Assign', 'extra')
+            call('assign', ['orthofinder', '--assign', 'extra', '--core', str(root), '-t', '1', '-a', '1'])
+            assigned = [p for p in root.parent.glob('Results_*') if p != root]
+            assert len(assigned) == 1, f'expected one new result beside the core: {assigned}'
+            complete(assigned[0])
+            header = (assigned[0] / 'Orthogroups/Orthogroups.tsv').read_text().splitlines()[0]
+            assert 'E' in header.split('\t'), header
+    elif mode == 'negative':
+        call('missing-input', ['orthofinder', '-f', 'missing', '-t', '1', '-a', '1'], expected=None)
+        call('preview-disabled', ['orthofinder', '--view'], expected=None)
+        Path('occupied').mkdir(); Path('occupied/sentinel').write_text('keep\n')
+        prepare()
+        call('existing-output', ['orthofinder', '-f', 'proteomes', '-o', 'occupied'], expected=None)
+        assert Path('occupied/sentinel').read_text() == 'keep\n'
+        for tool in ('split_ortholog_files', 'species_tree_alignment', 'mcl_orthogroup_sequences'):
+            call(tool, [tool, 'missing'], expected=None)
+
+
+def main():
+    if len(sys.argv) != 2 or sys.argv[1] not in MODES:
+        print('Usage: orthofinder-smoke ' + '|'.join(MODES), file=sys.stderr)
+        return 2
+    mode = sys.argv[1]
+    with tempfile.TemporaryDirectory(prefix='taf-orthofinder-') as scratch:
+        os.chdir(scratch)
+        try:
+            probe(mode)
+        except Exception as error:
+            print(f'smoke-mode={mode} failed: {error}', file=sys.stderr)
+            for log in sorted(Path('.').glob('*.log')):
+                print(f'--- {log} ---', file=sys.stderr)
+                print('\n'.join(log.read_text(errors='replace').splitlines()[-80:]), file=sys.stderr)
+            return 1
+    print(f'orthofinder-smoke {mode}: PASS')
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

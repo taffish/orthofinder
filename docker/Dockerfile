@@ -1,8 +1,14 @@
+# Rebuild boundary: the Python tag, Debian repositories and Python build tools
+# can drift or disappear. Checksummed release archives fail closed; this recipe
+# does not promise permanent upstream availability or byte-identical rebuilds.
+# On a missing archive, inspect the pinned release and recover verified original
+# bytes if available. Adopting replacement bytes requires review and a full new
+# build/test receipt; never just replace the checksum or remove verification.
 FROM python:3.12-slim-bookworm AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG ORTHOFINDER_VERSION=3.1.5
+ARG ORTHOFINDER_VERSION=3.2
 ARG DIAMOND_VERSION=2.1.25
 ARG DIAMOND_COMMIT=b03a535f6e94f18158043d37ad6c18fbf4c8e9e3
 ARG FAMSA_VERSION=2.5.2
@@ -15,6 +21,9 @@ ARG VCXPROJ_MAKE_COMMIT=806d016
 ARG VCXPROJ_MAKE_SHA256=902735703004c47705ffa389329378f237fecb154945b489edf6abe260c6694f
 ARG TARGETARCH
 
+# Debian package revisions follow Bookworm repositories, not a frozen snapshot.
+# Retry transient index errors first; a removed revision requires a reviewed
+# dependency update and fresh native/backend tests, not a fabricated lock hash.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       ca-certificates \
@@ -31,20 +40,24 @@ RUN apt-get update \
 
 WORKDIR /build
 
+# Runtime pins constrain versions, not archive retention. PyPI transitives and
+# isolated build dependencies can change; retain build receipts and wheel hashes.
+# Diagnose resolver/download failures separately. Recover verified old wheels or
+# review new dependency pins and rerun the full matrix before accepting drift.
 RUN set -eux; \
     mkdir -p /artifacts/bin /artifacts/share/orthofinder /wheels; \
     curl --retry 5 --retry-delay 2 --retry-all-errors -fL \
       "https://github.com/OrthoFinder/OrthoFinder/releases/download/v${ORTHOFINDER_VERSION}/orthofinder-${ORTHOFINDER_VERSION}.tar.gz" \
       -o "orthofinder-${ORTHOFINDER_VERSION}.tar.gz"; \
-    echo "d292dc7ca650de6940996c980917f183366c873fe834cef81515f159e2a41bc5  orthofinder-${ORTHOFINDER_VERSION}.tar.gz" | sha256sum -c -; \
+    echo "554cc15b4cca86e496c680cccf8697f3b0953ff25403e2ff0d585bd015071adb  orthofinder-${ORTHOFINDER_VERSION}.tar.gz" | sha256sum -c -; \
     curl --retry 5 --retry-delay 2 --retry-all-errors -fL \
       "https://github.com/OrthoFinder/OrthoFinder/releases/download/v${ORTHOFINDER_VERSION}/ExampleData.tar.gz" \
       -o ExampleData.tar.gz; \
-    echo "29234c1ee2642f3c69b503aa5ba45d40b885d08fd545a2f21d63f16caee2beb6  ExampleData.tar.gz" | sha256sum -c -; \
+    echo "60024e9590ebdf48e89e6a7b564c803f93affa76238bd32dc7f16ebad5c7245f  ExampleData.tar.gz" | sha256sum -c -; \
     curl --retry 5 --retry-delay 2 --retry-all-errors -fL \
       "https://github.com/OrthoFinder/OrthoFinder/releases/download/v${ORTHOFINDER_VERSION}/user_config.json" \
       -o /artifacts/share/orthofinder/user_config.json; \
-    echo "dbd7eedf9ff77a8d11def1be4466681b967e8050c2710acdc7786fdac73cea00  /artifacts/share/orthofinder/user_config.json" | sha256sum -c -; \
+    echo "ecc3e10fdae09be7c16fc55bd8f26306201275b8a5fe56802d412b2f88b40ef1  /artifacts/share/orthofinder/user_config.json" | sha256sum -c -; \
     tar -xzf "orthofinder-${ORTHOFINDER_VERSION}.tar.gz" -C /artifacts/share/orthofinder --strip-components=1 \
       "orthofinder-${ORTHOFINDER_VERSION}/README.md" \
       "orthofinder-${ORTHOFINDER_VERSION}/LICENSE" \
@@ -65,6 +78,7 @@ RUN set -eux; \
       "mdurl==0.1.2" \
       "more-itertools==11.0.2" \
       "numpy==2.4.5" \
+      "pandas==3.1.0" \
       "pygments==2.20.0" \
       "requests==2.34.2" \
       "rich==15.0.0" \
@@ -73,7 +87,7 @@ RUN set -eux; \
       "threadpoolctl==3.6.0" \
       "urllib3==2.7.0" \
       > /tmp/orthofinder-python-constraints.txt; \
-    python -m pip wheel --wheel-dir /wheels -c /tmp/orthofinder-python-constraints.txt "orthofinder-${ORTHOFINDER_VERSION}.tar.gz"
+    python -m pip wheel --timeout 120 --retries 5 --wheel-dir /wheels -c /tmp/orthofinder-python-constraints.txt "orthofinder-${ORTHOFINDER_VERSION}.tar.gz"
 
 RUN set -eux; \
     git -c advice.detachedHead=false clone --filter=blob:none --branch "v${DIAMOND_VERSION}" --depth 1 \
@@ -163,11 +177,23 @@ RUN set -eux; \
     /artifacts/bin/muscle -align aln.fa -output muscle.fa >/tmp/muscle-align.log 2>&1; \
     test -s muscle.fa
 
+# Preserve source-built dependency notices in the runtime image.
+RUN set -eux; \
+    mkdir -p /artifacts/share/orthofinder/dependency-licenses; \
+    find /build/diamond /build/ASTER /build/muscle "/build/FastME-v${FASTME_VERSION}" \
+      -maxdepth 2 -type f \( -iname '*license*' -o -iname 'copying*' \) \
+      -exec cp --parents '{}' /artifacts/share/orthofinder/dependency-licenses/ \;; \
+    cp -L "/build/FastME-v${FASTME_VERSION}/COPYING" /artifacts/share/orthofinder/dependency-licenses/FastME-COPYING; \
+    cp "/build/FastME-v${FASTME_VERSION}/README" /artifacts/share/orthofinder/dependency-licenses/FastME-README
+
 FROM python:3.12-slim-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=/usr/local/bin:${PATH}
 
+# Debian package revisions follow Bookworm repositories, not a frozen snapshot.
+# Diagnose mirror/index failures before changing dependencies; a changed runtime
+# package set requires fresh native and backend validation.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       bash \
@@ -189,14 +215,20 @@ RUN apt-get update \
       zlib1g \
  && rm -rf /var/lib/apt/lists/*
 
+COPY docker/orthofinder-smoke /usr/local/bin/orthofinder-smoke
+COPY docker/licenses/FAMSA-LICENSE /usr/local/share/doc/orthofinder/dependency-licenses/FAMSA-LICENSE
+
 COPY --from=builder /artifacts/bin/ /usr/local/bin/
-COPY --from=builder /wheels /tmp/wheels
 COPY --from=builder /artifacts/share/orthofinder /usr/local/share/doc/orthofinder
 
-RUN set -eux; \
-    python -m pip install --no-cache-dir --no-index --find-links=/tmp/wheels "orthofinder==3.1.5"; \
-    rm -rf /tmp/wheels; \
-    orthofinder --version 2>&1 | python -c 'import re, sys; text = re.sub(chr(27) + r"\[[0-9;]*m", "", sys.stdin.read()); assert "OrthoFinder:v3.1.5" in text, text'; \
+# Mount installation archives read-only so they never enter a runtime layer.
+RUN --mount=type=bind,from=builder,source=/wheels,target=/tmp/wheels \
+    set -eux; \
+    python -m pip install --no-cache-dir --no-index --find-links=/tmp/wheels "orthofinder==3.2"; \
+    chmod 0755 /usr/local/bin/orthofinder-smoke; \
+    chmod -R a+rX /usr/local/share/doc/orthofinder; \
+    python -m pip check; \
+    orthofinder --version 2>&1 | python -c 'import re, sys; text = re.sub(chr(27) + r"\[[0-9;]*m", "", sys.stdin.read()); assert "OrthoFinder:v3.2" in text, text'; \
     diamond version | grep -Fx "diamond version 2.1.25"; \
     famsa -help 2>&1 | grep -F "version 2.5.2-" >/dev/null; \
     fastme --version | grep -Fx "FastME 2.1.6.3"; \

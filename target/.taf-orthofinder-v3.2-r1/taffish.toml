@@ -1,0 +1,49 @@
+[package]
+name = "orthofinder"
+kind = "tool"
+version = "3.2"
+release = 1
+license = "Apache-2.0"
+main = "src/main.taf"
+
+[repository]
+url = "https://github.com/taffish/orthofinder"
+
+[command]
+name = "taf-orthofinder"
+
+[runtime]
+pipe = true
+command_mode = true
+
+[container]
+image = "ghcr.io/taffish/orthofinder:3.2-r1"
+dockerfile = "docker/Dockerfile"
+build_platforms = "linux/amd64,linux/arm64"
+
+[meta]
+domain = "bio"
+categories = ["orthology", "comparative-genomics", "phylogenomics", "gene-tree", "orthogroup"]
+keywords = ["orthofinder", "orthology", "orthogroups", "orthologues", "gene-tree", "species-tree", "comparative-genomics", "phylogenomics", "diamond", "famsa", "muscle", "fasttree", "mcl"]
+description = "Phylogenetic orthology inference for comparative genomics, including orthogroups, gene trees, species trees, gene duplications, orthologues, and comparative genomics statistics."
+
+[upstream]
+name = "OrthoFinder"
+type = "github"
+repo = "OrthoFinder/OrthoFinder"
+homepage = "https://orthofinder.github.io/OrthoFinder/"
+release_url = "https://github.com/OrthoFinder/OrthoFinder/releases/tag/v3.2"
+downloads = "https://github.com/OrthoFinder/OrthoFinder/releases/download/v3.2/orthofinder-3.2.tar.gz; https://github.com/OrthoFinder/OrthoFinder/releases/download/v3.2/ExampleData.tar.gz; https://github.com/OrthoFinder/OrthoFinder/releases/download/v3.2/user_config.json"
+version = "3.2"
+license = "GPL-3.0"
+citation = "Emms et al. 2026; Emms and Kelly 2015; Emms and Kelly 2017; Emms and Kelly 2019; Emms and Kelly 2022"
+doi = "10.1038/s41592-026-03126-6; 10.1186/s13059-015-0721-2; 10.1093/molbev/msx259; 10.1186/s13059-019-1832-y; 10.1186/s13059-022-02652-8; 10.1101/267914"
+watch = "tags"
+strip_prefix = "v"
+
+
+[smoke]
+backend = "docker"
+timeout = 600
+exist = ["orthofinder","orthofinder-utils","primary_transcript","make_ultrametric","convert_orthofinder_tree_ids","create_hog_fastas","ncbi_primary_transcript","orthogroup_gene_count","split_ortholog_files","species_tree_alignment","mcl_orthogroup_sequences","python","diamond","famsa","muscle","FastTree","mcl","fastme","astral-pro","mafft","makeblastdb","blastp","blastn","mmseqs","raxmlHPC","gzip","tar","unzip","bash","sh","tail","orthofinder-smoke"]
+test = ["orthofinder-smoke identity", "orthofinder-smoke helpers", "orthofinder-smoke primary", "orthofinder-smoke diamond", "orthofinder-smoke aligners", "orthofinder-smoke default", "orthofinder-smoke dendroblast", "orthofinder-smoke muscle", "orthofinder-smoke restart", "orthofinder-smoke assign", "orthofinder-smoke negative"]
