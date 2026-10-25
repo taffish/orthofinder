@@ -1,2 +1,2 @@
-<taf-app:container:ghcr.io/taffish/orthofinder:3.2-r1$@[docker: --user=$(id -u):$(id -g)][podman: --userns=keep-id --user=$(id -u):$(id -g)]>
+<taf-app:container:ghcr.io/taffish/orthofinder:3.2-r2$@[docker: --user=$(id -u):$(id -g)][podman: --userns=keep-id --user=$(id -u):$(id -g)]>
 orthofinder ::*ARGV*::

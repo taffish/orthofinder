@@ -1,0 +1,1723 @@
+{
+  "architecture": "amd64",
+  "stage": "builder",
+  "base_image": {
+    "name": "docker.io/library/python:3.12-slim-bookworm",
+    "index_digest": "sha256:6a0e06f5ba0b373d051aabd3fffb9b873f27f9a2a3a14bcbe37dee6f0e3bbc70",
+    "platform_manifest_digest": "sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0"
+  },
+  "repositories": [
+    {
+      "archive": "debian",
+      "suite": "bookworm",
+      "components": [
+        "main"
+      ],
+      "uri": "https://deb.debian.org/debian/",
+      "inrelease_url": "https://deb.debian.org/debian/dists/bookworm/InRelease",
+      "signed_by": "/usr/share/keyrings/debian-archive-keyring.gpg",
+      "keyring_sha256": "506b815cbb32d9b6066b4a2aa524071e071761e7e7f68c3ac74f3061ba852017",
+      "check_valid_until": true,
+      "tls_verify_peer": true,
+      "tls_verify_host": true
+    },
+    {
+      "archive": "debian",
+      "suite": "bookworm-updates",
+      "components": [
+        "main"
+      ],
+      "uri": "https://deb.debian.org/debian/",
+      "inrelease_url": "https://deb.debian.org/debian/dists/bookworm-updates/InRelease",
+      "signed_by": "/usr/share/keyrings/debian-archive-keyring.gpg",
+      "keyring_sha256": "506b815cbb32d9b6066b4a2aa524071e071761e7e7f68c3ac74f3061ba852017",
+      "check_valid_until": true,
+      "tls_verify_peer": true,
+      "tls_verify_host": true
+    },
+    {
+      "archive": "debian-security",
+      "suite": "bookworm-security",
+      "components": [
+        "main"
+      ],
+      "uri": "https://deb.debian.org/debian-security/",
+      "inrelease_url": "https://deb.debian.org/debian-security/dists/bookworm-security/InRelease",
+      "signed_by": "/usr/share/keyrings/debian-archive-keyring.gpg",
+      "keyring_sha256": "506b815cbb32d9b6066b4a2aa524071e071761e7e7f68c3ac74f3061ba852017",
+      "check_valid_until": true,
+      "tls_verify_peer": true,
+      "tls_verify_host": true
+    }
+  ],
+  "explicit_roots": [
+    "ca-certificates",
+    "curl",
+    "git",
+    "build-essential",
+    "cmake",
+    "zlib1g-dev",
+    "libsqlite3-dev",
+    "automake",
+    "autoconf",
+    "libtool"
+  ],
+  "base_already_installed_roots": [
+    {
+      "name": "ca-certificates",
+      "version": "20250419~deb12u2"
+    }
+  ],
+  "expected_newly_installed_count": 81,
+  "expected_upgrade_count": 0,
+  "expected_remove_count": 0,
+  "packages": [
+    {
+      "name": "autoconf",
+      "architecture": "all",
+      "version": "2.71-3",
+      "filename": "pool/main/a/autoconf/autoconf_2.71-3_all.deb",
+      "bytes": 332120,
+      "sha256": "7d798ed8c21fc7387127de1dfdb4640003d8ba033ae5a1ff29559610cbd0c323",
+      "url": "https://deb.debian.org/debian/pool/main/a/autoconf/autoconf_2.71-3_all.deb",
+      "suite": "bookworm",
+      "depends": "perl (>> 5.005), m4 (>= 1.4.13), debianutils (>= 1.8)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "automake",
+      "architecture": "all",
+      "version": "1:1.16.5-1.3",
+      "filename": "pool/main/a/automake-1.16/automake_1.16.5-1.3_all.deb",
+      "bytes": 822960,
+      "sha256": "f9a5758d87b5389bf2dbb00cc9c48e0cf59bb0ac842c5ce25d41e4bfa3f2f962",
+      "url": "https://deb.debian.org/debian/pool/main/a/automake-1.16/automake_1.16.5-1.3_all.deb",
+      "suite": "bookworm",
+      "depends": "autoconf, autotools-dev",
+      "pre_depends": "",
+      "provides": "automake-1.16, automaken",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "autotools-dev",
+      "architecture": "all",
+      "version": "20220109.1",
+      "filename": "pool/main/a/autotools-dev/autotools-dev_20220109.1_all.deb",
+      "bytes": 51604,
+      "sha256": "4d66dcb9c312566f1ca8d46ef0fb06fa4d4786c20b072c81f9d313b64ef981d0",
+      "url": "https://deb.debian.org/debian/pool/main/a/autotools-dev/autotools-dev_20220109.1_all.deb",
+      "suite": "bookworm",
+      "depends": "",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "binutils",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/binutils_2.40-2_amd64.deb",
+      "bytes": 64980,
+      "sha256": "83c3e20b53e1fbd84d764c3ba27d26a0376e361ae5d7fb37120196934dd87424",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/binutils_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "binutils-common (= 2.40-2), libbinutils (= 2.40-2), binutils-x86-64-linux-gnu (= 2.40-2)",
+      "pre_depends": "",
+      "provides": "binutils-gold, elf-binutils",
+      "conflicts": "binutils-mingw-w64-i686 (<< 2.23.52.20130612-1+3), binutils-mingw-w64-x86-64 (<< 2.23.52.20130612-1+3), binutils-multiarch (<< 2.27-8), modutils (<< 2.4.19-1)",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "binutils-common",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/binutils-common_2.40-2_amd64.deb",
+      "bytes": 2486664,
+      "sha256": "ab314134f43a0891a48f69a9bc33d825da748fa5e0ba2bebb7a5c491b026f1a0",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/binutils-common_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "binutils-x86-64-linux-gnu",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/binutils-x86-64-linux-gnu_2.40-2_amd64.deb",
+      "bytes": 2245848,
+      "sha256": "2d7ea8a570d768224d7f2424abbe6f373d2154865a1fa7f56c80d43ecf492521",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/binutils-x86-64-linux-gnu_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "binutils-common (= 2.40-2), libbinutils (= 2.40-2), libc6 (>= 2.36), libctf-nobfd0 (>= 2.36), libctf0 (>= 2.36), libgcc-s1 (>= 4.2), libgprofng0 (>= 2.40-2), libjansson4 (>= 2.14), libstdc++6 (>= 5), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "build-essential",
+      "architecture": "amd64",
+      "version": "12.9",
+      "filename": "pool/main/b/build-essential/build-essential_12.9_amd64.deb",
+      "bytes": 7704,
+      "sha256": "bbfd38de41898a06326f2a6ce4cc43e8e399f5566381231065b01d70499d5ba5",
+      "url": "https://deb.debian.org/debian/pool/main/b/build-essential/build-essential_12.9_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6-dev | libc-dev, gcc (>= 4:10.2), g++ (>= 4:10.2), make, dpkg-dev (>= 1.17.11)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "bzip2",
+      "architecture": "amd64",
+      "version": "1.0.8-5+b1",
+      "filename": "pool/main/b/bzip2/bzip2_1.0.8-5+b1_amd64.deb",
+      "bytes": 49804,
+      "sha256": "438871b3f5c5c7a357a9840951dab9dab8db7eb1ff760a563226fafa111b99e5",
+      "url": "https://deb.debian.org/debian/pool/main/b/bzip2/bzip2_1.0.8-5+b1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libbz2-1.0 (= 1.0.8-5+b1), libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "cmake",
+      "architecture": "amd64",
+      "version": "3.25.1-1",
+      "filename": "pool/main/c/cmake/cmake_3.25.1-1_amd64.deb",
+      "bytes": 8692248,
+      "sha256": "257a11063855f09e48696057fdb1ba2bcf1069502e0302576831dc2fb1571d7f",
+      "url": "https://deb.debian.org/debian/pool/main/c/cmake/cmake_3.25.1-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libarchive13 (>= 3.3.3), libc6 (>= 2.34), libcurl4 (>= 7.16.2), libexpat1 (>= 2.0.1), libgcc-s1 (>= 3.0), libjsoncpp25 (>= 1.9.5), librhash0 (>= 1.2.6), libstdc++6 (>= 12), libuv1 (>= 1.38.0), zlib1g (>= 1:1.1.4), cmake-data (= 3.25.1-1), procps",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "cmake-data",
+      "architecture": "all",
+      "version": "3.25.1-1",
+      "filename": "pool/main/c/cmake/cmake-data_3.25.1-1_all.deb",
+      "bytes": 2026484,
+      "sha256": "8371f9694da94fd551a3ea653e2e25d99747471ca0b48cc029bf5c792ea590a3",
+      "url": "https://deb.debian.org/debian/pool/main/c/cmake/cmake-data_3.25.1-1_all.deb",
+      "suite": "bookworm",
+      "depends": "",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "cpp",
+      "architecture": "amd64",
+      "version": "4:12.2.0-3",
+      "filename": "pool/main/g/gcc-defaults/cpp_12.2.0-3_amd64.deb",
+      "bytes": 6836,
+      "sha256": "a63db920f7aa1857a57beab185423deffb6111fa09437a99bbb4ef724fb7ba78",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-defaults/cpp_12.2.0-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "cpp-12 (>= 12.2.0-1~)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "cpp-doc (<< 1:2.95.3)",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "cpp-12",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/cpp-12_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 9767788,
+      "sha256": "fedbb98e877adde83c983c6071537ea25ac52b277ac6e4637d85025949ca1454",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/cpp-12_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.36), libgmp10 (>= 2:6.2.1+dfsg1), libisl23 (>= 0.15), libmpc3 (>= 1.1.0), libmpfr6 (>= 3.1.3), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "curl",
+      "architecture": "amd64",
+      "version": "7.88.1-10+deb12u15",
+      "filename": "pool/main/c/curl/curl_7.88.1-10+deb12u15_amd64.deb",
+      "bytes": 315764,
+      "sha256": "0dd9b6bf7a0bd11af2d68a52ec44c2a223fa7c11f9104c36ce1047e1137d4a8f",
+      "url": "https://deb.debian.org/debian/pool/main/c/curl/curl_7.88.1-10+deb12u15_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libcurl4 (= 7.88.1-10+deb12u15), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "dpkg-dev",
+      "architecture": "all",
+      "version": "1.21.23",
+      "filename": "pool/main/d/dpkg/dpkg-dev_1.21.23_all.deb",
+      "bytes": 1354256,
+      "sha256": "43547075395dbe9290e6a5f34e9ba93aa5dcf7dfc5698c3d30cc3c85e5f7e3de",
+      "url": "https://deb.debian.org/debian/pool/main/d/dpkg/dpkg-dev_1.21.23_all.deb",
+      "suite": "bookworm",
+      "depends": "perl:any, libdpkg-perl (= 1.21.23), tar (>= 1.28-1), bzip2, xz-utils (>= 5.4.0), patch (>= 2.7), make, binutils",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "file",
+      "architecture": "amd64",
+      "version": "1:5.44-3",
+      "filename": "pool/main/f/file/file_5.44-3_amd64.deb",
+      "bytes": 42472,
+      "sha256": "2c57221bf8cc0ff5d2295ececb9215cc1b9ff9040dacb152c385bba3087ab1df",
+      "url": "https://deb.debian.org/debian/pool/main/f/file/file_5.44-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libmagic1 (= 1:5.44-3)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "g++",
+      "architecture": "amd64",
+      "version": "4:12.2.0-3",
+      "filename": "pool/main/g/gcc-defaults/g++_12.2.0-3_amd64.deb",
+      "bytes": 1356,
+      "sha256": "26c451a660728cf7c15548a281e17eef2f36fab28499371e83fc2d3accb499d7",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-defaults/g++_12.2.0-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "cpp (= 4:12.2.0-3), gcc (= 4:12.2.0-3), g++-12 (>= 12.2.0-1~), gcc-12 (>= 12.2.0-1~)",
+      "pre_depends": "",
+      "provides": "c++-compiler, g++-x86-64-linux-gnu (= 4:12.2.0-3)",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "g++-12",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/g++-12_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 10694076,
+      "sha256": "68b182badae4ace7d472f1393c559d3532a95a2d70817498b10bb481d2627251",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/g++-12_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), gcc-12 (= 12.2.0-14+deb12u1), libstdc++-12-dev (= 12.2.0-14+deb12u1), libc6 (>= 2.36), libgmp10 (>= 2:6.2.1+dfsg1), libisl23 (>= 0.15), libmpc3 (>= 1.1.0), libmpfr6 (>= 3.1.3), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "c++-compiler, c++abi2-dev",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "gcc",
+      "architecture": "amd64",
+      "version": "4:12.2.0-3",
+      "filename": "pool/main/g/gcc-defaults/gcc_12.2.0-3_amd64.deb",
+      "bytes": 5216,
+      "sha256": "bb63b0fb2797e2a3a294dab8a02614930c557ec1f4ea96637c244b8b5f87e630",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-defaults/gcc_12.2.0-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "cpp (= 4:12.2.0-3), gcc-12 (>= 12.2.0-1~)",
+      "pre_depends": "",
+      "provides": "c-compiler, gcc-x86-64-linux-gnu (= 4:12.2.0-3)",
+      "conflicts": "gcc-doc (<< 1:2.95.3)",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "gcc-12",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/gcc-12_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 19268852,
+      "sha256": "b46f33cc2ec245e435e043807038cecf4b201ef004800e9dfc1455240360e49d",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/gcc-12_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "cpp-12 (= 12.2.0-14+deb12u1), gcc-12-base (= 12.2.0-14+deb12u1), libcc1-0 (>= 12.2.0-14+deb12u1), binutils (>= 2.40), libgcc-12-dev (= 12.2.0-14+deb12u1), libc6 (>= 2.36), libgcc-s1 (>= 3.0), libgmp10 (>= 2:6.2.1+dfsg1), libisl23 (>= 0.15), libmpc3 (>= 1.1.0), libmpfr6 (>= 3.1.3), libstdc++6 (>= 5), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "c-compiler",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "git",
+      "architecture": "amd64",
+      "version": "1:2.39.5-0+deb12u3",
+      "filename": "pool/main/g/git/git_2.39.5-0+deb12u3_amd64.deb",
+      "bytes": 7264380,
+      "sha256": "637a85ddd6247fab13bdd0592f2f39aff04ce4dbf0655d3ab553ac359a38ce6f",
+      "url": "https://deb.debian.org/debian/pool/main/g/git/git_2.39.5-0+deb12u3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libcurl3-gnutls (>= 7.56.1), libexpat1 (>= 2.0.1), libpcre2-8-0 (>= 10.34), zlib1g (>= 1:1.2.2), perl, liberror-perl, git-man (>> 1:2.39.5), git-man (<< 1:2.39.5-.)",
+      "pre_depends": "",
+      "provides": "git-completion, git-core",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "git-man",
+      "architecture": "all",
+      "version": "1:2.39.5-0+deb12u3",
+      "filename": "pool/main/g/git/git-man_2.39.5-0+deb12u3_all.deb",
+      "bytes": 2053236,
+      "sha256": "904dbd8dbc3db34c6780fb0abfe35816d4a90a490126ef0a055a77a0c5dcab82",
+      "url": "https://deb.debian.org/debian/pool/main/g/git/git-man_2.39.5-0+deb12u3_all.deb",
+      "suite": "bookworm",
+      "depends": "",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libarchive13",
+      "architecture": "amd64",
+      "version": "3.6.2-1+deb12u5",
+      "filename": "pool/updates/main/liba/libarchive/libarchive13_3.6.2-1+deb12u5_amd64.deb",
+      "bytes": 345488,
+      "sha256": "45419b8c7646c1af12783ae31906ce2da4c465c1a948b01f8f44152d8269f403",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/liba/libarchive/libarchive13_3.6.2-1+deb12u5_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "libacl1 (>= 2.2.23), libbz2-1.0, libc6 (>= 2.36), liblz4-1 (>= 0.0~r130), liblzma5 (>= 5.2.2), libnettle8, libxml2 (>= 2.7.4), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "libasan8",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libasan8_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 2192652,
+      "sha256": "e7ac5d797d7d438a130674a8e463530f06aa02ecf919ca054d75eaa2f7849ec7",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libasan8_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.34), libgcc-s1 (>= 3.3)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libatomic1",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libatomic1_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 9376,
+      "sha256": "fbd4e154a6b444229ea002cc209df099209c0adc09102e5fd21239a3d2b55e2d",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libatomic1_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.14)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libbinutils",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/libbinutils_2.40-2_amd64.deb",
+      "bytes": 572104,
+      "sha256": "fcf55b99e5f8a78f3c8ce9b6957f1024f394cf20c196b100d308a57e43547710",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/libbinutils_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.2.0), binutils-common (= 2.40-2)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libbrotli1",
+      "architecture": "amd64",
+      "version": "1.0.9-2+deb12u1",
+      "filename": "pool/updates/main/b/brotli/libbrotli1_1.0.9-2+deb12u1_amd64.deb",
+      "bytes": 274704,
+      "sha256": "e27b3d655fa6fadd7a56f706687e94573c0af68b7d6df394a32a381a3a6c6d8b",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/b/brotli/libbrotli1_1.0.9-2+deb12u1_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "libc6 (>= 2.29)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "libc-dev-bin",
+      "architecture": "amd64",
+      "version": "2.36-9+deb12u14",
+      "filename": "pool/main/g/glibc/libc-dev-bin_2.36-9+deb12u14_amd64.deb",
+      "bytes": 48056,
+      "sha256": "f61d923b703401023bec2ac3d9d1c9ad7341930fbe11736f7f5ef64b489d03c4",
+      "url": "https://deb.debian.org/debian/pool/main/g/glibc/libc-dev-bin_2.36-9+deb12u14_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>> 2.36), libc6 (<< 2.37)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libc6-dev",
+      "architecture": "amd64",
+      "version": "2.36-9+deb12u14",
+      "filename": "pool/main/g/glibc/libc6-dev_2.36-9+deb12u14_amd64.deb",
+      "bytes": 1903668,
+      "sha256": "0218fc2befcd784c1b0c6292c0a137ce89fad054efaa579ad083bee0f2c01aae",
+      "url": "https://deb.debian.org/debian/pool/main/g/glibc/libc6-dev_2.36-9+deb12u14_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (= 2.36-9+deb12u14), libc-dev-bin (= 2.36-9+deb12u14), linux-libc-dev, libcrypt-dev, libnsl-dev, rpcsvc-proto",
+      "pre_depends": "",
+      "provides": "libc-dev (= 2.36-9+deb12u14)",
+      "conflicts": "libc0.1-dev, libc0.3-dev, libc6.1-dev",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libcc1-0",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libcc1-0_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 41736,
+      "sha256": "4ee6009633003f47de98333ea7f7d8835ec563ae2ac4f30251dbfee04d75d46b",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libcc1-0_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.14), libgcc-s1 (>= 3.0), libstdc++6 (>= 5.2)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libcrypt-dev",
+      "architecture": "amd64",
+      "version": "1:4.4.33-2",
+      "filename": "pool/main/libx/libxcrypt/libcrypt-dev_4.4.33-2_amd64.deb",
+      "bytes": 118144,
+      "sha256": "81ccd29130f75a9e3adabc80e61921abff42f76761e1f792fa2d1bb69af7f52f",
+      "url": "https://deb.debian.org/debian/pool/main/libx/libxcrypt/libcrypt-dev_4.4.33-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libcrypt1 (= 1:4.4.33-2)",
+      "pre_depends": "",
+      "provides": "libcrypt1-dev",
+      "conflicts": "libcrypt1-dev, libcrypt2-dev",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libctf-nobfd0",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/libctf-nobfd0_2.40-2_amd64.deb",
+      "bytes": 153384,
+      "sha256": "ef1dfcf22de41ea90ebd3d505447ccccd999e96b85aa777a1d7d981dc3b347aa",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/libctf-nobfd0_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14), zlib1g (>= 1:1.2.0)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libctf0",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/libctf0_2.40-2_amd64.deb",
+      "bytes": 89796,
+      "sha256": "3fb7b6f326be3fae4a87a3d33b9269bd06c1e4346a24bd737f265067e3b7427f",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/libctf0_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libbinutils (= 2.40-2), libc6 (>= 2.33), zlib1g (>= 1:1.2.0)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libcurl3-gnutls",
+      "architecture": "amd64",
+      "version": "7.88.1-10+deb12u15",
+      "filename": "pool/main/c/curl/libcurl3-gnutls_7.88.1-10+deb12u15_amd64.deb",
+      "bytes": 386008,
+      "sha256": "bf430ecf80f7808704e0187cddc582fd57fc98789ea356d4797651edad387ef3",
+      "url": "https://deb.debian.org/debian/pool/main/c/curl/libcurl3-gnutls_7.88.1-10+deb12u15_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libbrotli1 (>= 0.6.0), libc6 (>= 2.34), libgnutls30 (>= 3.7.5), libgssapi-krb5-2 (>= 1.17), libidn2-0 (>= 0.6), libldap-2.5-0 (>= 2.5.4), libnettle8, libnghttp2-14 (>= 1.50.0), libpsl5 (>= 0.16.0), librtmp1 (>= 2.3), libssh2-1 (>= 1.7.0), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libcurl4",
+      "architecture": "amd64",
+      "version": "7.88.1-10+deb12u15",
+      "filename": "pool/main/c/curl/libcurl4_7.88.1-10+deb12u15_amd64.deb",
+      "bytes": 392184,
+      "sha256": "3042904de01f9c4fbdcf1452b8f81abedcf2b015f9b9deba109063322b5bd68b",
+      "url": "https://deb.debian.org/debian/pool/main/c/curl/libcurl4_7.88.1-10+deb12u15_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libbrotli1 (>= 0.6.0), libc6 (>= 2.34), libgssapi-krb5-2 (>= 1.17), libidn2-0 (>= 0.6), libldap-2.5-0 (>= 2.5.4), libnghttp2-14 (>= 1.50.0), libpsl5 (>= 0.16.0), librtmp1 (>= 2.3), libssh2-1 (>= 1.7.0), libssl3 (>= 3.0.0), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "libcurl3",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libdpkg-perl",
+      "architecture": "all",
+      "version": "1.21.23",
+      "filename": "pool/main/d/dpkg/libdpkg-perl_1.21.23_all.deb",
+      "bytes": 603796,
+      "sha256": "3f817fd9266ce2638c64b5df77da11f98f5df4f3301e1c04140be16790f72112",
+      "url": "https://deb.debian.org/debian/pool/main/d/dpkg/libdpkg-perl_1.21.23_all.deb",
+      "suite": "bookworm",
+      "depends": "perl:any, dpkg (>= 1.18.11)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "liberror-perl",
+      "architecture": "all",
+      "version": "0.17029-2",
+      "filename": "pool/main/libe/liberror-perl/liberror-perl_0.17029-2_all.deb",
+      "bytes": 29032,
+      "sha256": "5a466348531b9c38c8e5ccb18c231f27a98b9fdab61b37ea22592553de5d2ced",
+      "url": "https://deb.debian.org/debian/pool/main/libe/liberror-perl/liberror-perl_0.17029-2_all.deb",
+      "suite": "bookworm",
+      "depends": "perl:any",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libexpat1",
+      "architecture": "amd64",
+      "version": "2.5.0-1+deb12u5",
+      "filename": "pool/updates/main/e/expat/libexpat1_2.5.0-1+deb12u5_amd64.deb",
+      "bytes": 107940,
+      "sha256": "cae5ded666d8573dd33060bc66fbac21eea8b101a6b56e2af8bd590fcfa65d79",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/e/expat/libexpat1_2.5.0-1+deb12u5_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "libc6 (>= 2.36)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "libgcc-12-dev",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libgcc-12-dev_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 2437204,
+      "sha256": "d720259380a84f2ffc6fe516eff5cbe9c8a005138e8d6a5748747ba4b3404a82",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libgcc-12-dev_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libgcc-s1 (>= 12.2.0-14+deb12u1), libgomp1 (>= 12.2.0-14+deb12u1), libitm1 (>= 12.2.0-14+deb12u1), libatomic1 (>= 12.2.0-14+deb12u1), libasan8 (>= 12.2.0-14+deb12u1), liblsan0 (>= 12.2.0-14+deb12u1), libtsan2 (>= 12.2.0-14+deb12u1), libubsan1 (>= 12.2.0-14+deb12u1), libquadmath0 (>= 12.2.0-14+deb12u1)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libgdbm-compat4",
+      "architecture": "amd64",
+      "version": "1.23-3",
+      "filename": "pool/main/g/gdbm/libgdbm-compat4_1.23-3_amd64.deb",
+      "bytes": 48156,
+      "sha256": "4af36a590b68d415a78d9238b932b6a4579f515ec8a8016597498acff5b515a4",
+      "url": "https://deb.debian.org/debian/pool/main/g/gdbm/libgdbm-compat4_1.23-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.33), libgdbm6 (>= 1.16)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libgomp1",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libgomp1_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 115772,
+      "sha256": "48fec46bda7f5b1638b9e959889bfbc20491247d402d120bb152687eb48143d7",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libgomp1_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libgprofng0",
+      "architecture": "amd64",
+      "version": "2.40-2",
+      "filename": "pool/main/b/binutils/libgprofng0_2.40-2_amd64.deb",
+      "bytes": 812120,
+      "sha256": "a3c4092d84f19d13caf90f3c96eec53db8819f0e3a5247434944d71ed75fa53d",
+      "url": "https://deb.debian.org/debian/pool/main/b/binutils/libgprofng0_2.40-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libbinutils (= 2.40-2), libc6 (>= 2.34), libgcc-s1 (>= 3.3.1), libstdc++6 (>= 5.2), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libicu72",
+      "architecture": "amd64",
+      "version": "72.1-3+deb12u1",
+      "filename": "pool/main/i/icu/libicu72_72.1-3+deb12u1_amd64.deb",
+      "bytes": 9376124,
+      "sha256": "f7f6f99c6d7b025914df2447fc93e11d22c44c0c8bdd8b6f36691c9e7ddcef88",
+      "url": "https://deb.debian.org/debian/pool/main/i/icu/libicu72_72.1-3+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 12)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libisl23",
+      "architecture": "amd64",
+      "version": "0.25-1.1",
+      "filename": "pool/main/i/isl/libisl23_0.25-1.1_amd64.deb",
+      "bytes": 683060,
+      "sha256": "ebff0b2f8b220c74224197523019366e97ee4770d464bebc48e4865114e4da0e",
+      "url": "https://deb.debian.org/debian/pool/main/i/isl/libisl23_0.25-1.1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14), libgmp10 (>= 2:6.2.1+dfsg1)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libitm1",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libitm1_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 26140,
+      "sha256": "0ed5b35dfd1346cccbf065408ec789db6c44c1d0a16ae84533411dea09632979",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libitm1_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libjansson4",
+      "architecture": "amd64",
+      "version": "2.14-2",
+      "filename": "pool/main/j/jansson/libjansson4_2.14-2_amd64.deb",
+      "bytes": 40788,
+      "sha256": "3fc9742f9f1a37bcb9931df6074b4d1483419ef832ad5349f47323e75fc27864",
+      "url": "https://deb.debian.org/debian/pool/main/j/jansson/libjansson4_2.14-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libjsoncpp25",
+      "architecture": "amd64",
+      "version": "1.9.5-4",
+      "filename": "pool/main/libj/libjsoncpp/libjsoncpp25_1.9.5-4_amd64.deb",
+      "bytes": 78572,
+      "sha256": "4ab06b9ce67470579be3112bf2b6b314012f93bfff619580b93a902d6b1221c5",
+      "url": "https://deb.debian.org/debian/pool/main/libj/libjsoncpp/libjsoncpp25_1.9.5-4_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libldap-2.5-0",
+      "architecture": "amd64",
+      "version": "2.5.13+dfsg-5",
+      "filename": "pool/main/o/openldap/libldap-2.5-0_2.5.13+dfsg-5_amd64.deb",
+      "bytes": 183248,
+      "sha256": "4b6c30f6554149c594628d945edc6003f0eea8d0cc1341638c0e71375db147ed",
+      "url": "https://deb.debian.org/debian/pool/main/o/openldap/libldap-2.5-0_2.5.13+dfsg-5_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libgnutls30 (>= 3.7.5), libsasl2-2 (>= 2.1.28+dfsg)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "ldap-utils (<= 2.1.23-1)",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "liblsan0",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/liblsan0_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 969300,
+      "sha256": "d234ab339c0ba31a4fb44e2334cf5a8d15b87f2c2f9e74fadfaa877f92dcf22a",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/liblsan0_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.34), libgcc-s1 (>= 3.3)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libmagic-mgc",
+      "architecture": "amd64",
+      "version": "1:5.44-3",
+      "filename": "pool/main/f/file/libmagic-mgc_5.44-3_amd64.deb",
+      "bytes": 304888,
+      "sha256": "bad01673ba5dfb9b5db4f3ae6a71f18d492cb6801eab45ad3c7d483c0a1f6ad2",
+      "url": "https://deb.debian.org/debian/pool/main/f/file/libmagic-mgc_5.44-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libmagic1",
+      "architecture": "amd64",
+      "version": "1:5.44-3",
+      "filename": "pool/main/f/file/libmagic1_5.44-3_amd64.deb",
+      "bytes": 103752,
+      "sha256": "a241c2adc7438a7e217f32544028489981768a349d3e48673392703255c7b88e",
+      "url": "https://deb.debian.org/debian/pool/main/f/file/libmagic1_5.44-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libbz2-1.0, libc6 (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.1.4), libmagic-mgc (= 1:5.44-3)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libmpc3",
+      "architecture": "amd64",
+      "version": "1.3.1-1",
+      "filename": "pool/main/m/mpclib3/libmpc3_1.3.1-1_amd64.deb",
+      "bytes": 51480,
+      "sha256": "d7f79544790e44f9b0c8cb9034a18c58d37f8702a15f32539050718679e52f80",
+      "url": "https://deb.debian.org/debian/pool/main/m/mpclib3/libmpc3_1.3.1-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.4), libgmp10 (>= 2:6.2.1+dfsg1), libmpfr6 (>= 4.0.0)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libmpfr6",
+      "architecture": "amd64",
+      "version": "4.2.0-1",
+      "filename": "pool/main/m/mpfr4/libmpfr6_4.2.0-1_amd64.deb",
+      "bytes": 700900,
+      "sha256": "37b7a2b4e78890b6a074777f27b96c84f58e81558ba08410c2b6c0ca4a4ad77b",
+      "url": "https://deb.debian.org/debian/pool/main/m/mpfr4/libmpfr6_4.2.0-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14), libgmp10 (>= 2:6.2.1+dfsg1)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libnghttp2-14",
+      "architecture": "amd64",
+      "version": "1.52.0-1+deb12u3",
+      "filename": "pool/main/n/nghttp2/libnghttp2-14_1.52.0-1+deb12u3_amd64.deb",
+      "bytes": 72404,
+      "sha256": "5a5736cee57e51c1baed869979e6ecdbc6495e939e33203d6cfe3b6e5a149e3f",
+      "url": "https://deb.debian.org/debian/pool/main/n/nghttp2/libnghttp2-14_1.52.0-1+deb12u3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.17)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libnsl-dev",
+      "architecture": "amd64",
+      "version": "1.3.0-2",
+      "filename": "pool/main/libn/libnsl/libnsl-dev_1.3.0-2_amd64.deb",
+      "bytes": 66436,
+      "sha256": "bb81a188c119cd7fdebae723cbc95887b6c549b2fe4fb7e268a9c8846444da99",
+      "url": "https://deb.debian.org/debian/pool/main/libn/libnsl/libnsl-dev_1.3.0-2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libnsl2 (= 1.3.0-2), libtirpc-dev",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libperl5.36",
+      "architecture": "amd64",
+      "version": "5.36.0-7+deb12u4",
+      "filename": "pool/updates/main/p/perl/libperl5.36_5.36.0-7+deb12u4_amd64.deb",
+      "bytes": 4207640,
+      "sha256": "ed8480b621ad574c25aea30d36194d0133ea74093756ecbe3dff157d0510ef7f",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/p/perl/libperl5.36_5.36.0-7+deb12u4_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "libbz2-1.0, libc6 (>= 2.35), libcrypt1 (>= 1:4.1.0), libdb5.3, libgdbm-compat4 (>= 1.18-3), libgdbm6 (>= 1.21), zlib1g (>= 1:1.2.2.3), perl-modules-5.36 (>= 5.36.0-7+deb12u4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "libproc2-0",
+      "architecture": "amd64",
+      "version": "2:4.0.2-3",
+      "filename": "pool/main/p/procps/libproc2-0_4.0.2-3_amd64.deb",
+      "bytes": 62804,
+      "sha256": "e82ba5d01929eafb8b9954606a3c38b0332a987c2b3432388b4ee7365e54deae",
+      "url": "https://deb.debian.org/debian/pool/main/p/procps/libproc2-0_4.0.2-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libsystemd0 (>= 209)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libpsl5",
+      "architecture": "amd64",
+      "version": "0.21.2-1",
+      "filename": "pool/main/libp/libpsl/libpsl5_0.21.2-1_amd64.deb",
+      "bytes": 58684,
+      "sha256": "4f0d35610204e4e754b057748719744114621f2f6f4202d846c314860a981afb",
+      "url": "https://deb.debian.org/debian/pool/main/libp/libpsl/libpsl5_0.21.2-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libidn2-0 (>= 0.16), libc6 (>= 2.33), libunistring2 (>= 0.9.7)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libquadmath0",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libquadmath0_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 144616,
+      "sha256": "3f0c9a4c730da2fdab001cae596625438598fd2996d29d888feeb4c1cdc9011f",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libquadmath0_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.23)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "librhash0",
+      "architecture": "amd64",
+      "version": "1.4.3-3",
+      "filename": "pool/main/r/rhash/librhash0_1.4.3-3_amd64.deb",
+      "bytes": 134112,
+      "sha256": "d9ba48a51fd4734aaaf3a75fd94b6352a02f9eaa88d3bec84cd0b5d3090f9d2a",
+      "url": "https://deb.debian.org/debian/pool/main/r/rhash/librhash0_1.4.3-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.16)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "librtmp1",
+      "architecture": "amd64",
+      "version": "2.4+20151223.gitfa8646d.1-2+b2",
+      "filename": "pool/main/r/rtmpdump/librtmp1_2.4+20151223.gitfa8646d.1-2+b2_amd64.deb",
+      "bytes": 60824,
+      "sha256": "e1f69020dc2c466e421ec6a58406b643be8b5c382abf0f8989011c1d3df91c87",
+      "url": "https://deb.debian.org/debian/pool/main/r/rtmpdump/librtmp1_2.4+20151223.gitfa8646d.1-2+b2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14), libgmp10, libgnutls30 (>= 3.6.14), libhogweed6, libnettle8, zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libsasl2-2",
+      "architecture": "amd64",
+      "version": "2.1.28+dfsg-10",
+      "filename": "pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg-10_amd64.deb",
+      "bytes": 59712,
+      "sha256": "11ee190ad39f8d7af441d2c8347388b9449434c73acc67b4b372445ac4152efa",
+      "url": "https://deb.debian.org/debian/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg-10_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libsasl2-modules-db (>= 2.1.28+dfsg-10), libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libsasl2-modules-db",
+      "architecture": "amd64",
+      "version": "2.1.28+dfsg-10",
+      "filename": "pool/main/c/cyrus-sasl2/libsasl2-modules-db_2.1.28+dfsg-10_amd64.deb",
+      "bytes": 20336,
+      "sha256": "3ac4fd6cbe3b3b06e68d24b931bf3eb9385b42f15604a37ed25310e948ca0ee6",
+      "url": "https://deb.debian.org/debian/pool/main/c/cyrus-sasl2/libsasl2-modules-db_2.1.28+dfsg-10_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.14), libdb5.3",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libsqlite3-dev",
+      "architecture": "amd64",
+      "version": "3.40.1-2+deb12u2",
+      "filename": "pool/main/s/sqlite3/libsqlite3-dev_3.40.1-2+deb12u2_amd64.deb",
+      "bytes": 1025140,
+      "sha256": "afb550eb103e717000a2c7adae2e06e3eebd2952bf7d243ae2f1ca8594307563",
+      "url": "https://deb.debian.org/debian/pool/main/s/sqlite3/libsqlite3-dev_3.40.1-2+deb12u2_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libsqlite3-0 (= 3.40.1-2+deb12u2), libc-dev",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libssh2-1",
+      "architecture": "amd64",
+      "version": "1.10.0-3+deb12u1",
+      "filename": "pool/updates/main/libs/libssh2/libssh2-1_1.10.0-3+deb12u1_amd64.deb",
+      "bytes": 175976,
+      "sha256": "fff72a194e493f88e100a2567e22472bb4ab828d429c2956965c6f2f134f1b3a",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/libs/libssh2/libssh2-1_1.10.0-3+deb12u1_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "libc6 (>= 2.14), libssl3 (>= 3.0.0), zlib1g (>= 1:1.1.4)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "libstdc++-12-dev",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libstdc++-12-dev_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 2047292,
+      "sha256": "d28def6c23630432b57cb38a4c2fd67a79d4e0484027386ca6e8d6005c3d7a73",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libstdc++-12-dev_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libgcc-12-dev (= 12.2.0-14+deb12u1), libstdc++6 (>= 12.2.0-14+deb12u1), libc6-dev (>= 2.23-1~)",
+      "pre_depends": "",
+      "provides": "libstdc++-dev",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libtirpc-dev",
+      "architecture": "amd64",
+      "version": "1.3.3+ds-1",
+      "filename": "pool/main/libt/libtirpc/libtirpc-dev_1.3.3+ds-1_amd64.deb",
+      "bytes": 191428,
+      "sha256": "03326473eed54ffa27efae19aa5d6aeb402930968f869f318445513093691d55",
+      "url": "https://deb.debian.org/debian/pool/main/libt/libtirpc/libtirpc-dev_1.3.3+ds-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libtirpc3 (= 1.3.3+ds-1)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libtool",
+      "architecture": "all",
+      "version": "2.4.7-7~deb12u1",
+      "filename": "pool/main/libt/libtool/libtool_2.4.7-7~deb12u1_all.deb",
+      "bytes": 517256,
+      "sha256": "1c2e74f06b1d5d9a2c75e04ce87a99a8633058684439504ae8d715a4a088926c",
+      "url": "https://deb.debian.org/debian/pool/main/libt/libtool/libtool_2.4.7-7~deb12u1_all.deb",
+      "suite": "bookworm",
+      "depends": "gcc | c-compiler, cpp, libc6-dev | libc-dev, file, autotools-dev",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libtsan2",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libtsan2_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 2196972,
+      "sha256": "06906663d644a75a1a836382ecd80b61461129c06f02935ce408b25809f6c958",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libtsan2_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.34), libgcc-s1 (>= 3.3)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libubsan1",
+      "architecture": "amd64",
+      "version": "12.2.0-14+deb12u1",
+      "filename": "pool/main/g/gcc-12/libubsan1_12.2.0-14+deb12u1_amd64.deb",
+      "bytes": 883056,
+      "sha256": "744f52adf00ffd45d44806b1c7e802a36bd27e479c9bc8457128fde357faa530",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-12/libubsan1_12.2.0-14+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.34), libgcc-s1 (>= 3.3), libstdc++6 (>= 4.1.1)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libuv1",
+      "architecture": "amd64",
+      "version": "1.44.2-1+deb12u1",
+      "filename": "pool/main/libu/libuv1/libuv1_1.44.2-1+deb12u1_amd64.deb",
+      "bytes": 135616,
+      "sha256": "204f0e13354b44e6d19317887a53dab6f26696e8d95838db970b81f2a393f7fd",
+      "url": "https://deb.debian.org/debian/pool/main/libu/libuv1/libuv1_1.44.2-1+deb12u1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "libxml2",
+      "architecture": "amd64",
+      "version": "2.9.14+dfsg-1.3~deb12u6",
+      "filename": "pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_amd64.deb",
+      "bytes": 688760,
+      "sha256": "4460e39dda10a815881374217cde08474747cfa018358cd8612c14b390eff53b",
+      "url": "https://deb.debian.org/debian/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libicu72 (>= 72.1~rc-1~), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.3.3)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "w3c-dtd-xhtml",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "linux-libc-dev",
+      "architecture": "amd64",
+      "version": "6.1.190-1",
+      "filename": "pool/updates/main/l/linux/linux-libc-dev_6.1.190-1_amd64.deb",
+      "bytes": 2408528,
+      "sha256": "a88a129991cbb7db1715bed232c9808b91ac0fb7149660558b9df0d074348f05",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/l/linux/linux-libc-dev_6.1.190-1_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "m4",
+      "architecture": "amd64",
+      "version": "1.4.19-3",
+      "filename": "pool/main/m/m4/m4_1.4.19-3_amd64.deb",
+      "bytes": 286836,
+      "sha256": "b2dd7bfca426712416e651bb5ff6dabe7d05e4caebbac61d714dbe261b31e4c3",
+      "url": "https://deb.debian.org/debian/pool/main/m/m4/m4_1.4.19-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "make",
+      "architecture": "amd64",
+      "version": "4.3-4.1",
+      "filename": "pool/main/m/make-dfsg/make_4.3-4.1_amd64.deb",
+      "bytes": 395632,
+      "sha256": "a1a83af8cbd854af887b72ad196b1f4af58387815e21ced1000253a116a46e2a",
+      "url": "https://deb.debian.org/debian/pool/main/m/make-dfsg/make_4.3-4.1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.27)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "make-guile",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "patch",
+      "architecture": "amd64",
+      "version": "2.7.6-7",
+      "filename": "pool/main/p/patch/patch_2.7.6-7_amd64.deb",
+      "bytes": 127848,
+      "sha256": "8c6d49b771530dbe26d7bd060582dc7d2b4eeb603a20789debc1ef4bbbc4ef67",
+      "url": "https://deb.debian.org/debian/pool/main/p/patch/patch_2.7.6-7_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.17)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "perl",
+      "architecture": "amd64",
+      "version": "5.36.0-7+deb12u4",
+      "filename": "pool/updates/main/p/perl/perl_5.36.0-7+deb12u4_amd64.deb",
+      "bytes": 239392,
+      "sha256": "67e7a883c5d835939638f89a750799282df243ac1446281aa92ef9e19300940b",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/p/perl/perl_5.36.0-7+deb12u4_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "perl-base (= 5.36.0-7+deb12u4), perl-modules-5.36 (>= 5.36.0-7+deb12u4), libperl5.36 (= 5.36.0-7+deb12u4)",
+      "pre_depends": "dpkg (>= 1.17.17)",
+      "provides": "libansicolor-perl (= 5.01), libarchive-tar-perl (= 2.40), libattribute-handlers-perl (= 1.02), libautodie-perl (= 2.34), libcompress-raw-bzip2-perl (= 2.103), libcompress-raw-zlib-perl (= 2.105), libcompress-zlib-perl (= 2.106), libcpan-meta-perl (= 2.150010), libcpan-meta-requirements-perl (= 2.140), libcpan-meta-yaml-perl (= 0.018), libdigest-md5-perl (= 2.58), libdigest-perl (= 1.20), libdigest-sha-perl (= 6.02), libencode-perl (= 3.17), libexperimental-perl (= 0.028), libextutils-cbuilder-perl (= 0.280236), libextutils-command-perl (= 7.64), libextutils-install-perl (= 2.20), libextutils-parsexs-perl (= 3.450000), libfile-spec-perl (= 3.8400), libhttp-tiny-perl (= 0.080), libi18n-langtags-perl (= 0.45), libio-compress-base-perl (= 2.106), libio-compress-bzip2-perl (= 2.106), libio-compress-perl (= 2.106), libio-compress-zlib-perl (= 2.106), libio-zlib-perl (= 1.11), libjson-pp-perl (= 4.07000), liblocale-maketext-perl (= 1.31), liblocale-maketext-simple-perl (= 0.21.01), libmath-bigint-perl (= 1.999830), libmath-complex-perl (= 1.5902), libmime-base64-perl (= 3.16), libmodule-corelist-perl (= 5.20220520), libmodule-load-conditional-perl (= 0.74), libmodule-load-perl (= 0.36), libmodule-metadata-perl (= 1.000037), libnet-perl (= 1:3.14), libnet-ping-perl (= 2.74), libparams-check-perl (= 0.38), libparent-perl (= 0.238), libparse-cpan-meta-perl (= 2.150010), libperl-ostype-perl (= 1.010), libpod-escapes-perl (= 1.07), libpod-simple-perl (= 3.43), libstorable-perl (= 3.26), libsys-syslog-perl (= 0.36), libtest-harness-perl (= 3.44), libtest-simple-perl (= 1.302190), libtest-tester-perl (= 1.302190), libtest-use-ok-perl (= 1.302190), libtext-balanced-perl (= 2.04), libthread-queue-perl (= 3.14), libthreads-perl (= 2.27), libthreads-shared-perl (= 1.64), libtime-hires-perl (= 1.9770), libtime-local-perl (= 1.3000), libtime-piece-perl (= 1.3401), libunicode-collate-perl (= 1.31), libversion-perl (= 1:0.9929), libversion-requirements-perl, podlators-perl (= 4.14)",
+      "conflicts": "libjson-pp-perl (<< 2.27200-2)",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "perl-modules-5.36",
+      "architecture": "all",
+      "version": "5.36.0-7+deb12u4",
+      "filename": "pool/updates/main/p/perl/perl-modules-5.36_5.36.0-7+deb12u4_all.deb",
+      "bytes": 2817356,
+      "sha256": "3ed38ffa8320e9bf7597cefa01b6a6ace4a08ccc77cdfd15ef7d8b711dea7166",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/p/perl/perl-modules-5.36_5.36.0-7+deb12u4_all.deb",
+      "suite": "bookworm-security",
+      "depends": "perl-base (>= 5.36.0-1)",
+      "pre_depends": "dpkg (>= 1.17.17)",
+      "provides": "perl-modules",
+      "conflicts": "perl-modules (<< 5.22.0~)",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "procps",
+      "architecture": "amd64",
+      "version": "2:4.0.2-3",
+      "filename": "pool/main/p/procps/procps_4.0.2-3_amd64.deb",
+      "bytes": 708712,
+      "sha256": "d9d0e75779cb79af869181f17b93c5c263a2b89cac6a0193c436160a4483ddc1",
+      "url": "https://deb.debian.org/debian/pool/main/p/procps/procps_4.0.2-3_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34), libncursesw6 (>= 6), libproc2-0 (>= 2:4.0.2), libtinfo6 (>= 6), init-system-helpers (>= 1.29~)",
+      "pre_depends": "",
+      "provides": "watch",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "rpcsvc-proto",
+      "architecture": "amd64",
+      "version": "1.4.3-1",
+      "filename": "pool/main/r/rpcsvc-proto/rpcsvc-proto_1.4.3-1_amd64.deb",
+      "bytes": 63268,
+      "sha256": "32ac0692694f8a34cc90c895f4fc739680fb2ef0e2d4870a68833682bf1c81a3",
+      "url": "https://deb.debian.org/debian/pool/main/r/rpcsvc-proto/rpcsvc-proto_1.4.3-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "libc6 (>= 2.34)",
+      "pre_depends": "",
+      "provides": "",
+      "conflicts": "",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    },
+    {
+      "name": "xz-utils",
+      "architecture": "amd64",
+      "version": "5.4.1-1+deb12u2",
+      "filename": "pool/updates/main/x/xz-utils/xz-utils_5.4.1-1+deb12u2_amd64.deb",
+      "bytes": 471448,
+      "sha256": "f99fc3fe4b4e5baecf5fd8b53853a82e1e71cb5ec187b36b0ddcf227a8961c8f",
+      "url": "https://deb.debian.org/debian-security/pool/updates/main/x/xz-utils/xz-utils_5.4.1-1+deb12u2_amd64.deb",
+      "suite": "bookworm-security",
+      "depends": "libc6 (>= 2.34), liblzma5 (>= 5.4.0)",
+      "pre_depends": "",
+      "provides": "lzma",
+      "conflicts": "lzma (<< 9.22-1), xz-lzma",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "index_sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18"
+      }
+    },
+    {
+      "name": "zlib1g-dev",
+      "architecture": "amd64",
+      "version": "1:1.2.13.dfsg-1",
+      "filename": "pool/main/z/zlib/zlib1g-dev_1.2.13.dfsg-1_amd64.deb",
+      "bytes": 916272,
+      "sha256": "f9ce531f60cbd5df37996af9370e0171be96902a17ec2bdbd8d62038c354094f",
+      "url": "https://deb.debian.org/debian/pool/main/z/zlib/zlib1g-dev_1.2.13.dfsg-1_amd64.deb",
+      "suite": "bookworm",
+      "depends": "zlib1g (= 1:1.2.13.dfsg-1), libc6-dev | libc-dev",
+      "pre_depends": "",
+      "provides": "libz-dev",
+      "conflicts": "zlib1-dev",
+      "lock_creation_provenance": {
+        "snapshot_archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5"
+      }
+    }
+  ],
+  "schema": 2,
+  "acquisition_policy": {
+    "mode": "current-signed-official-index-fixed-package-bytes",
+    "metadata_may_refresh": true,
+    "allow_package_drift": false,
+    "snapshot_fallback": false
+  },
+  "lock_creation_provenance": {
+    "original_lock_sha256": "9256ad8d5df927e9077089e647277c084e774b10a71d94b31f5c66f6d7c3a249",
+    "repositories": [
+      {
+        "archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "suite": "bookworm",
+        "components": [
+          "main"
+        ],
+        "uri": "https://snapshot.debian.org/archive/debian/20261024T082158Z/",
+        "inrelease_url": "https://snapshot.debian.org/archive/debian/20261024T082158Z/dists/bookworm/InRelease",
+        "inrelease_sha256": "77737fa4b34f2693e982cc9ee35736816c35a7778fc2d326cc1bbf5b301fe1aa",
+        "inrelease_bytes": 151075,
+        "signed_by": "/usr/share/keyrings/debian-archive-keyring.gpg",
+        "keyring_sha256": "506b815cbb32d9b6066b4a2aa524071e071761e7e7f68c3ac74f3061ba852017",
+        "gpgv_exit_code": 0,
+        "check_valid_until": false,
+        "tls_verify_peer": true,
+        "tls_verify_host": true,
+        "packages_indices": [
+          {
+            "architecture": "amd64",
+            "url": "https://snapshot.debian.org/archive/debian/20261024T082158Z/dists/bookworm/main/binary-amd64/Packages.xz",
+            "sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5",
+            "bytes": 8790396
+          },
+          {
+            "architecture": "arm64",
+            "url": "https://snapshot.debian.org/archive/debian/20261024T082158Z/dists/bookworm/main/binary-arm64/Packages.xz",
+            "sha256": "2ddb1737692e8c45c53e8d57c0ce4cd21c78c5703b830c3226b1423566a06c00",
+            "bytes": 8689464
+          }
+        ]
+      },
+      {
+        "archive": "debian",
+        "snapshot_timestamp": "20261024T082158Z",
+        "suite": "bookworm-updates",
+        "components": [
+          "main"
+        ],
+        "uri": "https://snapshot.debian.org/archive/debian/20261024T082158Z/",
+        "inrelease_url": "https://snapshot.debian.org/archive/debian/20261024T082158Z/dists/bookworm-updates/InRelease",
+        "inrelease_sha256": "b7b8468d9b2e8fda1da59615dd840eab1edf2693f7c69066c207079ce9148cd5",
+        "inrelease_bytes": 55403,
+        "signed_by": "/usr/share/keyrings/debian-archive-keyring.gpg",
+        "keyring_sha256": "506b815cbb32d9b6066b4a2aa524071e071761e7e7f68c3ac74f3061ba852017",
+        "gpgv_exit_code": 0,
+        "check_valid_until": false,
+        "tls_verify_peer": true,
+        "tls_verify_host": true,
+        "packages_indices": [
+          {
+            "architecture": "amd64",
+            "url": "https://snapshot.debian.org/archive/debian/20261024T082158Z/dists/bookworm-updates/main/binary-amd64/Packages.xz",
+            "sha256": "87e7e94047fb7fb6f4ceecc7022d4bee55b66031cc2a7666d3196f3e0aabb846",
+            "bytes": 6924
+          },
+          {
+            "architecture": "arm64",
+            "url": "https://snapshot.debian.org/archive/debian/20261024T082158Z/dists/bookworm-updates/main/binary-arm64/Packages.xz",
+            "sha256": "5dfd52317071685ad6e58c4ef0720128b7db68624079f83be02bdf55f07ac070",
+            "bytes": 6936
+          }
+        ]
+      },
+      {
+        "archive": "debian-security",
+        "snapshot_timestamp": "20261024T040132Z",
+        "suite": "bookworm-security",
+        "components": [
+          "main"
+        ],
+        "uri": "https://snapshot.debian.org/archive/debian-security/20261024T040132Z/",
+        "inrelease_url": "https://snapshot.debian.org/archive/debian-security/20261024T040132Z/dists/bookworm-security/InRelease",
+        "inrelease_sha256": "71d0320adc08057aa7e789f4899a6d7a43ddbaf197a638ffeecfc4e47d67178f",
+        "inrelease_bytes": 34770,
+        "signed_by": "/usr/share/keyrings/debian-archive-keyring.gpg",
+        "keyring_sha256": "506b815cbb32d9b6066b4a2aa524071e071761e7e7f68c3ac74f3061ba852017",
+        "gpgv_exit_code": 0,
+        "check_valid_until": false,
+        "tls_verify_peer": true,
+        "tls_verify_host": true,
+        "packages_indices": [
+          {
+            "architecture": "amd64",
+            "url": "https://snapshot.debian.org/archive/debian-security/20261024T040132Z/dists/bookworm-security/main/binary-amd64/Packages.xz",
+            "sha256": "1e25f319bcd4cba5b27660277af6a59df2fd96bcce7c2576e4fc9062fbaf6c18",
+            "bytes": 356820
+          },
+          {
+            "architecture": "arm64",
+            "url": "https://snapshot.debian.org/archive/debian-security/20261024T040132Z/dists/bookworm-security/main/binary-arm64/Packages.xz",
+            "sha256": "e1bdbcd1a2f9fc3606216f4741358eb7338596aa9085fcd5e1bf97a9474b1562",
+            "bytes": 355048
+          }
+        ]
+      }
+    ]
+  }
+}

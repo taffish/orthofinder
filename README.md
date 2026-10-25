@@ -4,9 +4,9 @@ TAFFISH tool packaging for [OrthoFinder](https://github.com/OrthoFinder/OrthoFin
 orthogroups, orthologs, gene/species trees and comparative-genomics statistics
 from per-species protein FASTA files.
 
-- Package: `orthofinder 3.2-r1`; installed command: `taf-orthofinder`.
-- Image: `ghcr.io/taffish/orthofinder:3.2-r1`.
-- Native platforms: `linux/amd64,linux/arm64`.
+- Package: `orthofinder 3.2-r2`; installed command: `taf-orthofinder`.
+- Image: `ghcr.io/taffish/orthofinder:3.2-r2`.
+- Declared platforms: `linux/amd64,linux/arm64`.
 - Packaging license: Apache-2.0; upstream license files remain unchanged.
 - Upstream: official [v3.2](https://github.com/OrthoFinder/OrthoFinder/releases/tag/v3.2),
   commit `c2142b862aea0ea8cfad71a32764572e4b086aa6`.
@@ -17,7 +17,7 @@ After this version is published and indexed:
 
 ```sh
 taf update
-taf install orthofinder 3.2-r1
+taf install orthofinder 3.2-r2
 taf-orthofinder --help
 taf-orthofinder -- --help
 taf-orthofinder -- --version
@@ -113,12 +113,38 @@ The existing small compiler-portability fixes for DIAMOND/MUSCLE remain;
 MUSCLE's `-march=native` is removed and its AArch64 macro recognized.
 These are dependency build fixes, not OrthoFinder algorithm changes.
 
-Python runtime constraints retain the prior versions and add pandas 3.1.0
-required by 3.2. Versions constrain resolution but do not guarantee permanent
-archive retention or byte-identical rebuilds. The base tag, Debian repositories,
-Python transitives and isolated build dependencies may drift; Dockerfile
-comments identify those boundaries. Fixed source hashes fail closed instead of
-silently accepting different archives. Keep a built image digest for exact reuse.
+Release r2 pins the Python multiarch base by digest and locks complete Debian
+package transactions. It uses the regular official Debian repositories with
+current signature and expiry checks, and requires every selected package to
+match its locked version, architecture, size and SHA256. Repository metadata may
+be refreshed; package identities cannot drift. It also locks exact Python
+runtime and build inputs by version, filename, size and SHA256. Package versions
+preserve the preceding native validation; the build environment is explicit. Python wheel building and final installation run with networking
+disabled. Build tooling and downloaded archives remain outside the runtime
+image. See [docker/locks/README.md](docker/locks/README.md) for the input identities,
+verification rules and readable image receipts.
+
+Unexpected bytes, versions or dependencies fail the build. These locks do not
+guarantee server availability or byte-identical compiler output. Keep a built
+image digest for exact reuse.
+
+Release r2 vendors the unchanged FastME 2.1.6.3 source archive under
+`docker/vendor/` because GitHub-hosted runners could not establish a TCP
+connection to its source server. The archive is 1,100,731 bytes and retains
+SHA256 `d49ff78cca7b76eadf8443efb33f071a7e8a152618ffa3d8e790f167d0a0b176`.
+Its source and license notes are in [docker/vendor/README.md](docker/vendor/README.md).
+The build copies this archive into the builder stage and verifies it before
+compilation; the original compile commands and FastME version are unchanged.
+Normal `taf install` retains this small archive with the app source (plus Git
+storage overhead), but the final runtime image does not contain the archive.
+The standard container Action is unchanged.
+
+ASTER v1.25 is fetched as the official archive of the same fixed commit
+`db2b3e95da5bb0318b933afe1a144eb943ef7cbf`, with SHA256
+`f4538195a9d5143774fd6d94dadc73718df4512dba43e2c5b2659e99cdad3b48`.
+This replaces an interrupted Git pack transfer; the ASTRAL-Pro source and
+compile command are unchanged. The archive is downloaded only during image
+construction, not by `taf install`, and is absent from the final image.
 
 IQ-TREE 3, RAxML-NG and VeryFastTree are not included. Custom program configurations
 can only use installed executables; `--config FILE` does not install programs.
@@ -178,7 +204,7 @@ lifecycle checks are N/A for this public surface, not a claimed GUI PASS.
 ```sh
 taf check
 taf build
-./target/taf-orthofinder-v3.2-r1 -- --version
+./target/taf-orthofinder-v3.2-r2 -- --version
 ```
 
 Each `orthofinder-smoke MODE` is independent and creates its own writable
@@ -186,53 +212,30 @@ temporary directory. Modes cover identity, all helpers, transcript selection,
 DIAMOND, aligners, default/dendroblast/MUSCLE pipelines, stop/restart,
 assignment and failures. Redirected failures replay bounded stage logs.
 
-The initial 2026-10-24 candidate was built natively on both declared architectures.
-On the private xjp Linux amd64 host, Docker, Podman and actual read-only
-Apptainer SIF passed; native ARM64 Docker and Podman also passed. The matrix
-contained 396 independent offline smoke invocations and 105 real-wrapper calls.
-Docker/Podman each passed normal and non-root read-only-root checks. The
-wrapper tests covered metadata, command-mode helpers, actual host-bound
-outputs and ownership, new output utilities, restart, assignment, negative
-cases and idempotent splitting. Utility space-path checks preserve literal
-double quotes as shown above; they do not prove ordinary shell quoting works.
-Analysis paths with whitespace are explicitly rejected by upstream.
+The final candidate passed native Linux/amd64 builds and validation with Docker,
+Podman and a real read-only Apptainer SIF, plus native ARM64 builds and validation
+with Docker and Podman. The 396 exact manifest probes, 110 real-wrapper checks,
+101 upstream source-file comparisons on each of five combinations, and five
+actual timeout-diagnostic probes passed. Docker and Podman also passed the
+manifest probes with a read-only root filesystem as a non-root user; wrapper
+checks separately verified host-visible results. Networking was disabled for
+the direct probes. Image contents, permissions and locked dependency receipts
+were checked for the final candidates.
 
-Five runtime permission probes checked parent-directory traversal, dependency
-notices and denied-access/read-only negative controls. Five injected failures
-confirmed visible stage, original exit code and bounded log output. Each of
-the five runtime axes matched 101 upstream Python files against the official
-sdist; only `_version.py` is regenerated by upstream's setuptools-scm build,
-and its reported version was separately checked as 3.2.
+ARM64 Podman used a task-private Unix-socket connection to the same rootless
+engine after the default macOS remote SSH client stalled before container
+creation. The client, VM, image, wrapper and application were unchanged; that
+client transport issue has not been repaired by this app revision. ARM64
+Apptainer was not separately validated. Earlier failed attempts remain in the
+maintainer evidence and are not counted as successful validation.
 
-The documentation-closeout rerun passed 396 fresh independent offline smoke
-invocations. The final current-wrapper evidence contains 22 passing checks on
-each of five native axes (110 calls): xjp amd64 Docker, Podman and Apptainer,
-plus local ARM64 Docker and Podman. The engine-recovery follow-up reran both
-ARM64 wrappers completely and repeated all 88 ARM64 Docker offline normal /
-non-root read-only smoke invocations. Its permission, source-integrity and
-failure-log probes also passed. The unchanged xjp three-backend receipts and
-ARM64 Podman exact-smoke receipts were rechecked, not presented as fresh reruns.
-
-Current image sizes are 808,712,503 bytes (amd64) and 798,678,188 bytes (ARM64).
-The largest directories are the Python runtime/dependencies (460/481 MiB),
-system libraries (168/184 MiB), and shared runtime data (55 MiB). Small official
-fixtures and notices occupy about 2.2 MiB. Mounting wheels from the build stage
-instead of copying them into a retained layer removed 87,172,600 bytes from
-the amd64 baseline. The fresh amd64 closeout rebuild is four bytes larger than
-the initial validated image and has a separately recorded identity.
-
-ARM64 Apptainer is not separately validated; this is not a six-combination
-claim. Earlier Docker Desktop runs failed in host file sharing with
-`service fs failed: injecting event blocked for 60s`, including with Podman
-temporarily stopped. After an authorized switch from VirtioFS to gRPC FUSE,
-the unchanged wrapper and its default mounts passed the complete regression.
-Podman was started in an independent process session and passed its complete
-wrapper regression and subsequent health checks. Final engine/residue checks
-passed; no memory, quota or security settings were changed. These observations
-support a local recovery/workaround, not a guarantee against future Desktop
-failures. Earlier failures remain in maintainer evidence. Local validation is
-not a claim that future floating CI, public GHCR/Index acceptance or
-production-scale scientific accuracy is proven.
+The measured Docker image sizes are 808,828,126 bytes on amd64 and 795,866,802
+bytes on ARM64. Source archives, Python build inputs and build caches are absent
+from the runtime image. Smoke timeouts now preserve captured partial output and
+replay bounded stage diagnostics; successful execution and manifest commands
+are unchanged. These packaging checks do not replace production-dataset
+scientific validation. This revision has not been published; public installation
+and Index acceptance remain post-publication checks.
 
 ## Troubleshooting
 

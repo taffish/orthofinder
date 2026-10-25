@@ -1,4 +1,4 @@
-taf-orthofinder 3.2-r1
+taf-orthofinder 3.2-r2
 
 Purpose:
   Infer orthogroups, orthologs and gene/species trees from protein FASTA files.

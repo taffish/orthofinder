@@ -1,6 +1,0 @@
-{
-  "artifact": "taf-orthofinder-v3.2-r1",
-  "schema": "taffish.build/v1",
-  "source_sha256": "701823ae90d656d03ae233b489e402ca1e81a0c9c42889f6b765175b494e6afb",
-  "wrapper_sha256": "ffbec0305d5d896bf673283b4bb211c5a6136ad018c6581c18e3f4a7f7790e3e"
-}

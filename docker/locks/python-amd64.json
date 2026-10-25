@@ -1,0 +1,504 @@
+{
+  "schema": 1,
+  "python": "3.12",
+  "platform": "linux/amd64",
+  "files": [
+    {
+      "name": "biopython",
+      "version": "1.87",
+      "filename": "biopython-1.87-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/a9/28/7898c2061966d6d62f0bb2e53cd5e1b3bb3053d2bc431f299802faca23cc/biopython-1.87-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "65ba69ef0273e983a9036c2a228142bc34266179a5f03660fc281d332d718630",
+      "bytes": 3246483,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "bottle",
+      "version": "0.13.4",
+      "filename": "bottle-0.13.4-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/83/f6/b55ec74cfe68c6584163faa311503c20b0da4c09883a41e8e00d6726c954/bottle-0.13.4-py2.py3-none-any.whl",
+      "sha256": "045684fbd2764eac9cdeb824861d1551d113e8b683d8d26e296898d3dd99a12e",
+      "bytes": 103807,
+      "requires_python": null,
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "brotli",
+      "version": "1.2.0",
+      "filename": "brotli-1.2.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/03/a7/03aa61fbc3c5cbf99b44d158665f9b0dd3d8059be16c460208d9e385c837/brotli-1.2.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "072e7624b1fc4d601036ab3f4f27942ef772887e876beff0301d261210bca97f",
+      "bytes": 1419762,
+      "requires_python": null,
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "certifi",
+      "version": "2026.4.22",
+      "filename": "certifi-2026.4.22-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/22/30/7cd8fdcdfbc5b869528b079bfb76dcdf6056b1a2097a662e5e8c04f42965/certifi-2026.4.22-py3-none-any.whl",
+      "sha256": "3cb2210c8f88ba2318d29b0388d1023c8492ff72ecdde4ebdaddbb13a31b1c4a",
+      "bytes": 135707,
+      "requires_python": ">=3.7",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.4.7",
+      "filename": "charset_normalizer-3.4.7-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/4b/f8/d0118a2f5f23b02cd166fa385c60f9b0d4f9194f574e2b31cef350ad7223/charset_normalizer-3.4.7-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "5649fd1c7bade02f320a462fdefd0b4bd3ce036065836d4f42e0de958038e116",
+      "bytes": 216589,
+      "requires_python": ">=3.7",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "cheroot",
+      "version": "11.1.2",
+      "filename": "cheroot-11.1.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/41/99/af65511a10c4212438ac52bc5e45e486e7a04d292201ad84dfd9208fe9a8/cheroot-11.1.2-py3-none-any.whl",
+      "sha256": "0f6c0ba05c00fbc869fb46b1de4ec2384e1d85418ae963d3bc10ae83b688dbfa",
+      "bytes": 109248,
+      "requires_python": ">=3.8",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "cython",
+      "version": "3.3.0",
+      "filename": "cython-3.3.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/6a/4e/6b1c5a4e6bbe1726104de007aa2fdf01a3e2e386b4ec93c7be5f5085d53f/cython-3.3.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "428fafed98ea26927000a287b4dfc9ef07339f56656a5329a34eaa593f79a4f8",
+      "bytes": 3412225,
+      "requires_python": ">=3.9",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact version and CPython 3.12 Linux-compatible wheel tags",
+      "roles": [
+        "build"
+      ]
+    },
+    {
+      "name": "idna",
+      "version": "3.15",
+      "filename": "idna-3.15-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/d2/23/408243171aa9aaba178d3e2559159c24c1171a641aa83b67bdd3394ead8e/idna-3.15-py3-none-any.whl",
+      "sha256": "048adeaf8c2d788c40fee287673ccaa74c24ffd8dcf09ffa555a2fbb59f10ac8",
+      "bytes": 72340,
+      "requires_python": ">=3.8",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "jaraco.functools",
+      "version": "4.5.0",
+      "filename": "jaraco_functools-4.5.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/96/9a/982e48afcffcd727a9144506720ffd4224b6b7e355c98641866f38b7c043/jaraco_functools-4.5.0-py3-none-any.whl",
+      "sha256": "79ce39246eddbde4b3a03b77ea5f0f7878dc669b166a66cf3fa8e266aa3fa2f4",
+      "bytes": 10594,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "joblib",
+      "version": "1.5.3",
+      "filename": "joblib-1.5.3-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/7b/91/984aca2ec129e2757d1e4e3c81c3fcda9d0f85b74670a094cc443d9ee949/joblib-1.5.3-py3-none-any.whl",
+      "sha256": "5fc3c5039fc5ca8c0276333a188bbd59d6b7ab37fe6632daa76bc7f9ec18e713",
+      "bytes": 309071,
+      "requires_python": ">=3.9",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "filename": "markdown_it_py-4.2.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b3/81/4da04ced5a082363ecfa159c010d200ecbd959ae410c10c0264a38cac0f5/markdown_it_py-4.2.0-py3-none-any.whl",
+      "sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "bytes": 91687,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "filename": "mdurl-0.1.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl",
+      "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+      "bytes": 9979,
+      "requires_python": ">=3.7",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "more-itertools",
+      "version": "11.0.2",
+      "filename": "more_itertools-11.0.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/cb/98/6af411189d9413534c3eb691182bff1f5c6d44ed2f93f2edfe52a1bbceb8/more_itertools-11.0.2-py3-none-any.whl",
+      "sha256": "6e35b35f818b01f691643c6c611bc0902f2e92b46c18fffa77ae1e7c46e912e4",
+      "bytes": 71939,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "numpy",
+      "version": "2.4.5",
+      "filename": "numpy-2.4.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/d1/0b/b905ae82d9419dc38123523862db64978ca2954b69609c3ae8fdaca1084c/numpy-2.4.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "685681e956fc8dcb75adc6ff26694e1dfd738b24bd8d4696c51ca0110157f912",
+      "bytes": 16645703,
+      "requires_python": ">=3.11",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "filename": "packaging-26.3-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl",
+      "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "bytes": 129956,
+      "requires_python": ">=3.9",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact version and CPython 3.12 Linux-compatible wheel tags",
+      "roles": [
+        "build"
+      ]
+    },
+    {
+      "name": "pandas",
+      "version": "3.1.0",
+      "filename": "pandas-3.1.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/c5/a6/dc89cdd95e12093bc813e9b814a09f1a056be3e1304edaef9bf9dbee108a/pandas-3.1.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "9433b5dc2f26ef9d9b56daaf4d41d078bf4372c5d88c42ed5b397a6eea80de16",
+      "bytes": 12019688,
+      "requires_python": ">=3.11",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "pygments",
+      "version": "2.20.0",
+      "filename": "pygments-2.20.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/f4/7e/a72dd26f3b0f4f2bf1dd8923c85f7ceb43172af56d63c7383eb62b332364/pygments-2.20.0-py3-none-any.whl",
+      "sha256": "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176",
+      "bytes": 1231151,
+      "requires_python": ">=3.9",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "python-dateutil",
+      "version": "3.0.0",
+      "filename": "python_dateutil-3.0.0-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/5a/17/cebee01d1c0c1441174cf0456ddc91b280d79acb65340c05e41d77866ee8/python_dateutil-3.0.0-py2.py3-none-any.whl",
+      "sha256": "3c79630202e4152c6add678446984236efe4f57e84d8e892aab0637bab82e9fd",
+      "bytes": 94659,
+      "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2",
+      "filename": "requests-2.34.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl",
+      "sha256": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0",
+      "bytes": 73075,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "filename": "rich-15.0.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl",
+      "sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+      "bytes": 310654,
+      "requires_python": ">=3.9.0",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.8.0",
+      "filename": "scikit_learn-1.8.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/97/74/b7a304feb2b49df9fafa9382d4d09061a96ee9a9449a7cbea7988dda0828/scikit_learn-1.8.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "a0bcfe4d0d14aec44921545fd2af2338c7471de9cb701f1da4c9d85906ab847a",
+      "bytes": 8931904,
+      "requires_python": ">=3.11",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "scipy",
+      "version": "1.17.1",
+      "filename": "scipy-1.17.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/01/8e/1e35281b8ab6d5d72ebe9911edcdffa3f36b04ed9d51dec6dd140396e220/scipy-1.17.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "02ae3b274fde71c5e92ac4d54bc06c42d80e399fec704383dcd99b301df37458",
+      "bytes": 35235890,
+      "requires_python": ">=3.11",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "setuptools",
+      "version": "84.2.1",
+      "filename": "setuptools-84.2.1-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/ef/55/6dc6d6bb953bdfc52519a0059592c52b6e3b8ad51cf8256dffceb55b0610/setuptools-84.2.1-py3-none-any.whl",
+      "sha256": "ca140b45d5325a9478f880e351484f62fef15f336462e449ca0c03c873d589c2",
+      "bytes": 876263,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact version and CPython 3.12 Linux-compatible wheel tags",
+      "roles": [
+        "build"
+      ]
+    },
+    {
+      "name": "setuptools-scm",
+      "version": "10.3.4",
+      "filename": "setuptools_scm-10.3.4-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/da/f5/54538a1f17ea753c42b0928dc2e62986d463f8c393340b9a1e602f2d4dd9/setuptools_scm-10.3.4-py3-none-any.whl",
+      "sha256": "82f34c3e3084fc2b57d397200637cc13f2338004052d2fee47baa5f0e902464e",
+      "bytes": 33366,
+      "requires_python": ">=3.8",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact version and CPython 3.12 Linux-compatible wheel tags",
+      "roles": [
+        "build"
+      ]
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "filename": "six-1.17.0-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl",
+      "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+      "bytes": 11050,
+      "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.6.0",
+      "filename": "threadpoolctl-3.6.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/32/d5/f9a850d79b0851d1d4ef6456097579a9005b31fea68726a4ae5f2d82ddd9/threadpoolctl-3.6.0-py3-none-any.whl",
+      "sha256": "43a0b8fd5a2928500110039e43a5eed8480b918967083ea48dc3ab9f13c4a7fb",
+      "bytes": 18638,
+      "requires_python": ">=3.9",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.5",
+      "filename": "tzdata-2026.5-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/94/21/1e5995a1c920cce14e4bffae20c665ec10e7ed03ab25e006cd741092b718/tzdata-2026.5-py2.py3-none-any.whl",
+      "sha256": "b683bd1b6659ddcd810ff02ad09ba821d4bf1065072805063eb35c49617905ac",
+      "bytes": 347996,
+      "requires_python": ">=2",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0",
+      "filename": "urllib3-2.7.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl",
+      "sha256": "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897",
+      "bytes": 131087,
+      "requires_python": ">=3.10",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact filename in successful native build log",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "name": "vcs-versioning",
+      "version": "2.6.0",
+      "filename": "vcs_versioning-2.6.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/73/1d/ad4064bf12f4503bf61e65d74c93c523672776d25ee0a06aaf42ae09ef3f/vcs_versioning-2.6.0-py3-none-any.whl",
+      "sha256": "f8bebd1302ebc12e67ceb30fc7dd698ec969414b6fa43b30c3f14ac9b1e72c41",
+      "bytes": 123154,
+      "requires_python": ">=3.8",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact version and CPython 3.12 Linux-compatible wheel tags",
+      "roles": [
+        "build"
+      ]
+    },
+    {
+      "name": "wheel",
+      "version": "0.48.0",
+      "filename": "wheel-0.48.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/2e/29/69cfbb602cd91690c55d38ba9fe53e6a7e76a6fa647bf38f19c138d25449/wheel-0.48.0-py3-none-any.whl",
+      "sha256": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "bytes": 33320,
+      "requires_python": ">=3.9",
+      "verification": "Official PyPI exact-version JSON hash; wheel bytes must still be checked at acquisition",
+      "selection_basis": "Exact version and CPython 3.12 Linux-compatible wheel tags",
+      "roles": [
+        "build"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "version": "3.2",
+      "filename": "orthofinder-3.2.tar.gz",
+      "url": "https://github.com/OrthoFinder/OrthoFinder/releases/download/v3.2/orthofinder-3.2.tar.gz",
+      "sha256": "554cc15b4cca86e496c680cccf8697f3b0953ff25403e2ff0d585bd015071adb",
+      "name": "orthofinder",
+      "bytes": 5078614
+    },
+    {
+      "name": "ete4",
+      "version": "4.4.0",
+      "filename": "ete4-4.4.0.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/fa/53/0ceedd63e4c872f668188a5de786a00b6b8854cb285a3dc69cd107c62038/ete4-4.4.0.tar.gz",
+      "sha256": "0306ab66c2a1685946f94a4912718a5812dfc3059070300fc25d0e2b881bb8d1",
+      "bytes": 1397946
+    }
+  ],
+  "base_pip": {
+    "version": "25.0.1",
+    "source": "Fixed base image / ensurepip; assert, do not download/reinstall"
+  },
+  "expected_runtime_packages": {
+    "biopython": "1.87",
+    "bottle": "0.13.4",
+    "brotli": "1.2.0",
+    "certifi": "2026.4.22",
+    "charset-normalizer": "3.4.7",
+    "cheroot": "11.1.2",
+    "ete4": "4.4.0",
+    "idna": "3.15",
+    "jaraco-functools": "4.5.0",
+    "joblib": "1.5.3",
+    "markdown-it-py": "4.2.0",
+    "mdurl": "0.1.2",
+    "more-itertools": "11.0.2",
+    "numpy": "2.4.5",
+    "orthofinder": "3.2",
+    "pandas": "3.1.0",
+    "pip": "25.0.1",
+    "pygments": "2.20.0",
+    "python-dateutil": "3.0.0",
+    "requests": "2.34.2",
+    "rich": "15.0.0",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.1",
+    "six": "1.17.0",
+    "threadpoolctl": "3.6.0",
+    "tzdata": "2026.5",
+    "urllib3": "2.7.0"
+  },
+  "expected_build_tool_packages": {
+    "setuptools": "84.2.1",
+    "setuptools-scm": "10.3.4",
+    "wheel": "0.48.0",
+    "packaging": "26.3",
+    "vcs-versioning": "2.6.0",
+    "cython": "3.3.0"
+  },
+  "expected_build_environment_packages": {
+    "setuptools": "84.2.1",
+    "setuptools-scm": "10.3.4",
+    "wheel": "0.48.0",
+    "packaging": "26.3",
+    "vcs-versioning": "2.6.0",
+    "cython": "3.3.0",
+    "pip": "25.0.1"
+  },
+  "package_name_normalization": "PEP 503: lowercase, collapse runs of [-_.] to -",
+  "expected_counts": {
+    "downloaded_runtime_wheels": 24,
+    "downloaded_build_wheels": 6,
+    "source_archives": 2,
+    "generated_runtime_wheels": 2,
+    "final_runtime_wheelhouse": 26,
+    "final_installed_packages": 27
+  }
+}

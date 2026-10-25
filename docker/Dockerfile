@@ -1,10 +1,9 @@
-# Rebuild boundary: the Python tag, Debian repositories and Python build tools
-# can drift or disappear. Checksummed release archives fail closed; this recipe
-# does not promise permanent upstream availability or byte-identical rebuilds.
-# On a missing archive, inspect the pinned release and recover verified original
-# bytes if available. Adopting replacement bytes requires review and a full new
-# build/test receipt; never just replace the checksum or remove verification.
-FROM python:3.12-slim-bookworm AS builder
+# Base, complete APT package transactions and Python inputs
+# are locked in docker/locks. Every downloaded archive is hash-checked; missing
+# material fails closed. Locks fix input identities, not mirror availability or
+# byte-identical compiler output. Recover verified original bytes, or explicitly
+# review new locks and rerun all native/backend gates; never weaken verification.
+FROM python:3.12-slim-bookworm@sha256:6a0e06f5ba0b373d051aabd3fffb9b873f27f9a2a3a14bcbe37dee6f0e3bbc70 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -13,38 +12,32 @@ ARG DIAMOND_VERSION=2.1.25
 ARG DIAMOND_COMMIT=b03a535f6e94f18158043d37ad6c18fbf4c8e9e3
 ARG FAMSA_VERSION=2.5.2
 ARG FASTME_VERSION=2.1.6.3
-ARG ASTER_TAG=v1.25
+# ASTER v1.25, unchanged from the preceding app revision.
 ARG ASTER_COMMIT=db2b3e95da5bb0318b933afe1a144eb943ef7cbf
+ARG ASTER_SOURCE_SHA256=f4538195a9d5143774fd6d94dadc73718df4512dba43e2c5b2659e99cdad3b48
 ARG MUSCLE_VERSION=5.3
 ARG MUSCLE_SOURCE_SHA256=74b22a94e630b16015c2bd9ae83aa2be2c2048d3e41f560b2d4a954725c81968
 ARG VCXPROJ_MAKE_COMMIT=806d016
 ARG VCXPROJ_MAKE_SHA256=902735703004c47705ffa389329378f237fecb154945b489edf6abe260c6694f
 ARG TARGETARCH
 
-# Debian package revisions follow Bookworm repositories, not a frozen snapshot.
-# Retry transient index errors first; a removed revision requires a reviewed
-# dependency update and fresh native/backend tests, not a fabricated lock hash.
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      ca-certificates \
-      curl \
-      git \
-      build-essential \
-      cmake \
-      zlib1g-dev \
-      libsqlite3-dev \
-      automake \
-      autoconf \
-      libtool \
- && rm -rf /var/lib/apt/lists/*
+# Use the regular official Debian service with current signature/expiry checks.
+# Package identities stay locked: verify the signed index and each .deb before
+# no-download install; reject extra packages, upgrades and removals. A removed
+# locked package fails closed instead of following a newer version or fallback.
+RUN --mount=type=bind,source=docker/locked-inputs.py,target=/tmp/locked-inputs.py,readonly \
+    --mount=type=bind,source=docker/locks,target=/tmp/locks,readonly \
+    python /tmp/locked-inputs.py apt --arch "${TARGETARCH}" \
+      --lock "/tmp/locks/apt-${TARGETARCH}-builder.json" \
+      --receipt /artifacts/share/orthofinder/build-locks/apt-builder.json
 
 WORKDIR /build
 
-# Runtime pins constrain versions, not archive retention. PyPI transitives and
-# isolated build dependencies can change; retain build receipts and wheel hashes.
-# Diagnose resolver/download failures separately. Recover verified old wheels or
-# review new dependency pins and rerun the full matrix before accepting drift.
-RUN set -eux; \
+# Fetch only the selected, checksummed source and wheel files. Build tooling is
+# installed from the locked local inputs in the following network-free step.
+RUN --mount=type=bind,source=docker/locked-inputs.py,target=/tmp/locked-inputs.py,readonly \
+    --mount=type=bind,source=docker/locks,target=/tmp/locks,readonly \
+    set -eux; \
     mkdir -p /artifacts/bin /artifacts/share/orthofinder /wheels; \
     curl --retry 5 --retry-delay 2 --retry-all-errors -fL \
       "https://github.com/OrthoFinder/OrthoFinder/releases/download/v${ORTHOFINDER_VERSION}/orthofinder-${ORTHOFINDER_VERSION}.tar.gz" \
@@ -63,31 +56,18 @@ RUN set -eux; \
       "orthofinder-${ORTHOFINDER_VERSION}/LICENSE" \
       "orthofinder-${ORTHOFINDER_VERSION}/tests/data/proteome"; \
     tar -xzf ExampleData.tar.gz -C /artifacts/share/orthofinder; \
-    printf '%s\n' \
-      "biopython==1.87" \
-      "bottle==0.13.4" \
-      "brotli==1.2.0" \
-      "certifi==2026.4.22" \
-      "charset-normalizer==3.4.7" \
-      "cheroot==11.1.2" \
-      "ete4==4.4.0" \
-      "idna==3.15" \
-      "jaraco.functools==4.5.0" \
-      "joblib==1.5.3" \
-      "markdown-it-py==4.2.0" \
-      "mdurl==0.1.2" \
-      "more-itertools==11.0.2" \
-      "numpy==2.4.5" \
-      "pandas==3.1.0" \
-      "pygments==2.20.0" \
-      "requests==2.34.2" \
-      "rich==15.0.0" \
-      "scikit-learn==1.8.0" \
-      "scipy==1.17.1" \
-      "threadpoolctl==3.6.0" \
-      "urllib3==2.7.0" \
-      > /tmp/orthofinder-python-constraints.txt; \
-    python -m pip wheel --timeout 120 --retries 5 --wheel-dir /wheels -c /tmp/orthofinder-python-constraints.txt "orthofinder-${ORTHOFINDER_VERSION}.tar.gz"
+    python /tmp/locked-inputs.py fetch-python --arch "${TARGETARCH}" \
+      --lock "/tmp/locks/python-${TARGETARCH}.json" \
+      --inputs /build/python-inputs --reuse-from /build \
+      --receipt /artifacts/share/orthofinder/build-locks/python-inputs.json
+
+RUN --network=none \
+    --mount=type=bind,source=docker/locked-inputs.py,target=/tmp/locked-inputs.py,readonly \
+    --mount=type=bind,source=docker/locks,target=/tmp/locks,readonly \
+    python /tmp/locked-inputs.py build-python --arch "${TARGETARCH}" \
+      --lock "/tmp/locks/python-${TARGETARCH}.json" \
+      --inputs /build/python-inputs --wheels /wheels \
+      --receipt /artifacts/share/orthofinder/build-locks/python-build.json
 
 RUN set -eux; \
     git -c advice.detachedHead=false clone --filter=blob:none --branch "v${DIAMOND_VERSION}" --depth 1 \
@@ -126,10 +106,11 @@ RUN set -eux; \
     chmod 0755 /artifacts/bin/famsa; \
     /artifacts/bin/famsa -help 2>&1 | grep -F "version ${FAMSA_VERSION}-" >/dev/null
 
+# Keep the upstream archive byte-for-byte: GitHub runners cannot reach its host.
+# Provenance and a readable license accompany it in docker/vendor. Verify the
+# original checksum before extraction; do not replace bytes or relax the hash.
+COPY docker/vendor/FastME-v${FASTME_VERSION}.tar.gz /build/
 RUN set -eux; \
-    curl --retry 5 --retry-delay 2 --retry-all-errors -fL \
-      "https://gite.lirmm.fr/atgc/FastME/-/archive/v${FASTME_VERSION}/FastME-v${FASTME_VERSION}.tar.gz" \
-      -o "FastME-v${FASTME_VERSION}.tar.gz"; \
     echo "d49ff78cca7b76eadf8443efb33f071a7e8a152618ffa3d8e790f167d0a0b176  FastME-v${FASTME_VERSION}.tar.gz" | sha256sum -c -; \
     tar -xzf "FastME-v${FASTME_VERSION}.tar.gz"; \
     cd "FastME-v${FASTME_VERSION}"; \
@@ -139,11 +120,20 @@ RUN set -eux; \
     ./src/fastme --version | grep -Fx "FastME ${FASTME_VERSION}"; \
     cp ./src/fastme /artifacts/bin/fastme
 
+# The fixed-commit official archive avoids the failing Git pack transfer.
+# Its source blobs were compared with the commit tree; astral-pro needs neither
+# Git metadata nor the optional TAPER submodule. Archive compression can change:
+# retain this hash and review any mismatch, never silently accept new bytes.
 RUN set -eux; \
-    git -c advice.detachedHead=false clone --filter=blob:none --branch "${ASTER_TAG}" --depth 1 \
-      https://github.com/chaoszhang/ASTER.git /build/ASTER; \
+    curl --fail --location --show-error --proto '=https' --proto-redir '=https' \
+      --connect-timeout 30 --max-time 1200 --retry 2 --retry-delay 3 \
+      --retry-all-errors --retry-max-time 1800 \
+      "https://github.com/chaoszhang/ASTER/archive/${ASTER_COMMIT}.tar.gz" \
+      -o /build/aster.tar.gz; \
+    echo "${ASTER_SOURCE_SHA256}  /build/aster.tar.gz" | sha256sum -c -; \
+    mkdir -p /build/ASTER; \
+    tar -xzf /build/aster.tar.gz -C /build/ASTER --strip-components=1; \
     cd /build/ASTER; \
-    test "$(git rev-parse HEAD)" = "${ASTER_COMMIT}"; \
     g++ -std=gnu++11 -O2 -pthread src/astral-pro.cpp -o /artifacts/bin/astral-pro; \
     /artifacts/bin/astral-pro -h 2>&1 | grep -F "Version: v1.25.3.8" >/dev/null
 
@@ -186,34 +176,20 @@ RUN set -eux; \
     cp -L "/build/FastME-v${FASTME_VERSION}/COPYING" /artifacts/share/orthofinder/dependency-licenses/FastME-COPYING; \
     cp "/build/FastME-v${FASTME_VERSION}/README" /artifacts/share/orthofinder/dependency-licenses/FastME-README
 
-FROM python:3.12-slim-bookworm
+FROM python:3.12-slim-bookworm@sha256:6a0e06f5ba0b373d051aabd3fffb9b873f27f9a2a3a14bcbe37dee6f0e3bbc70
+
+ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=/usr/local/bin:${PATH}
 
-# Debian package revisions follow Bookworm repositories, not a frozen snapshot.
-# Diagnose mirror/index failures before changing dependencies; a changed runtime
-# package set requires fresh native and backend validation.
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      bash \
-      ca-certificates \
-      curl \
-      fasttree \
-      gzip \
-      libgomp1 \
-      libsqlite3-0 \
-      libstdc++6 \
-      mafft \
-      mcl \
-      mmseqs2 \
-      ncbi-blast+ \
-      procps \
-      raxml \
-      tar \
-      unzip \
-      zlib1g \
- && rm -rf /var/lib/apt/lists/*
+# Runtime packages use the same official sources and full-transaction checks as
+# the builder. Lock/helper mounts are build-only, outside the runtime image.
+RUN --mount=type=bind,source=docker/locked-inputs.py,target=/tmp/locked-inputs.py,readonly \
+    --mount=type=bind,source=docker/locks,target=/tmp/locks,readonly \
+    python /tmp/locked-inputs.py apt --arch "${TARGETARCH}" \
+      --lock "/tmp/locks/apt-${TARGETARCH}-runtime.json" \
+      --receipt /usr/local/share/doc/orthofinder/build-locks/apt-runtime.json
 
 COPY docker/orthofinder-smoke /usr/local/bin/orthofinder-smoke
 COPY docker/licenses/FAMSA-LICENSE /usr/local/share/doc/orthofinder/dependency-licenses/FAMSA-LICENSE
@@ -222,9 +198,14 @@ COPY --from=builder /artifacts/bin/ /usr/local/bin/
 COPY --from=builder /artifacts/share/orthofinder /usr/local/share/doc/orthofinder
 
 # Mount installation archives read-only so they never enter a runtime layer.
-RUN --mount=type=bind,from=builder,source=/wheels,target=/tmp/wheels \
+RUN --network=none \
+    --mount=type=bind,from=builder,source=/wheels,target=/tmp/wheels,readonly \
+    --mount=type=bind,source=docker/locked-inputs.py,target=/tmp/locked-inputs.py,readonly \
+    --mount=type=bind,source=docker/locks,target=/tmp/locks,readonly \
     set -eux; \
-    python -m pip install --no-cache-dir --no-index --find-links=/tmp/wheels "orthofinder==3.2"; \
+    python /tmp/locked-inputs.py install-python --arch "${TARGETARCH}" \
+      --lock "/tmp/locks/python-${TARGETARCH}.json" --wheels /tmp/wheels \
+      --receipt /usr/local/share/doc/orthofinder/build-locks/python-runtime.json; \
     chmod 0755 /usr/local/bin/orthofinder-smoke; \
     chmod -R a+rX /usr/local/share/doc/orthofinder; \
     python -m pip check; \

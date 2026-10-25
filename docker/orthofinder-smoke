@@ -15,8 +15,18 @@ DATA = Path('/usr/local/share/doc/orthofinder/tests/data/proteome')
 
 
 def call(stage, args, *, expected=0, marker=None):
-    result = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                            text=True, timeout=240)
+    try:
+        result = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                text=True, timeout=240)
+    except subprocess.TimeoutExpired as error:
+        partial = error.stdout or ''
+        if isinstance(partial, bytes):
+            partial = partial.decode('utf-8', errors='replace')
+        Path(stage + '.log').write_text(partial)
+        output = re.sub(r'\x1b\[[0-9;]*m', '', partial)
+        print(f'smoke-stage={stage} timeout=240', file=sys.stderr)
+        print('\n'.join(output.splitlines()[-200:]), file=sys.stderr)
+        raise RuntimeError(f'{stage}: timed out after 240 seconds') from error
     Path(stage + '.log').write_text(result.stdout)
     output = re.sub(r'\x1b\[[0-9;]*m', '', result.stdout)
     ok = result.returncode == expected if expected is not None else result.returncode != 0
